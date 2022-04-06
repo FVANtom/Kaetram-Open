@@ -111,6 +111,9 @@ export default {
 
     getContainerAction(menuAction: Modules.MenuActions): Opcodes.Container {
         switch (menuAction) {
+            case Modules.MenuActions.BindSoul:
+                return Opcodes.Container.BindSoul;
+
             case Modules.MenuActions.Use:
             case Modules.MenuActions.Equip:
             case Modules.MenuActions.Eat:

@@ -36,7 +36,10 @@ export default class EntityHandler {
                 attacker.follow(entity);
             });
 
-            if (entity.isMob() && (entity.hasAttackers() || entity.hasTarget()))
+            if (
+                entity.isConstruct() ||
+                (entity.isMob() && (entity.hasAttackers() || entity.hasTarget()))
+            )
                 game.socket.send(Packets.Movement, {
                     opcode: Opcodes.Movement.Entity,
                     targetInstance: entity.instance,

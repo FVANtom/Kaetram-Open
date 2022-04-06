@@ -7,6 +7,7 @@ import log from '../lib/log';
 import Util from '../utils/util';
 
 import { Opcodes, Modules } from '@kaetram/common/network';
+import Game from '@kaetram/client/src/game';
 import { SlotData } from '@kaetram/common/types/slot';
 
 type SelectCallback = (index: number, action: Opcodes.Container, tIndex?: number) => void;
@@ -14,6 +15,7 @@ type SelectCallback = (index: number, action: Opcodes.Container, tIndex?: number
 interface SlotElement extends HTMLElement {
     edible?: boolean;
     equippable?: boolean;
+    soulBindable?: boolean;
 }
 
 export default class Inventory extends Menu {
@@ -24,7 +26,7 @@ export default class Inventory extends Menu {
 
     private selectCallback?: SelectCallback;
 
-    public constructor(private actions: Actions) {
+    public constructor(private actions: Actions, private game: Game) {
         super('#inventory', undefined, '#inventory-button');
 
         this.load();
@@ -52,7 +54,8 @@ export default class Inventory extends Menu {
      */
 
     private handleAction(action: Modules.MenuActions): void {
-        this.selectCallback?.(this.selectedSlot, Util.getContainerAction(action));
+        if (!this.game.terraGame.sotMenu.handleAction(this.selectedSlot, action))
+            this.selectCallback?.(this.selectedSlot, Util.getContainerAction(action));
 
         this.actions.hide();
     }
@@ -69,7 +72,14 @@ export default class Inventory extends Menu {
         _.each(slots, (slot: SlotData) => {
             if (!slot.key) return;
 
-            this.setSlot(slot.index, slot.key, slot.count, slot.edible, slot.equippable);
+            this.setSlot(
+                slot.index,
+                slot.key,
+                slot.count,
+                slot.edible,
+                slot.equippable,
+                slot.soulBindable
+            );
         });
     }
 
@@ -79,7 +89,14 @@ export default class Inventory extends Menu {
      */
 
     public override add(slot: SlotData): void {
-        this.setSlot(slot.index, slot.key, slot.count, slot.edible, slot.equippable);
+        this.setSlot(
+            slot.index,
+            slot.key,
+            slot.count,
+            slot.edible,
+            slot.equippable,
+            slot.soulBindable
+        );
     }
 
     /**
@@ -89,7 +106,14 @@ export default class Inventory extends Menu {
      */
 
     public override remove(slot: SlotData): void {
-        this.setSlot(slot.index, slot.key, slot.count, slot.edible, slot.equippable);
+        this.setSlot(
+            slot.index,
+            slot.key,
+            slot.count,
+            slot.edible,
+            slot.equippable,
+            slot.soulBindable
+        );
     }
 
     /**
@@ -128,6 +152,7 @@ export default class Inventory extends Menu {
 
         let actions: Modules.MenuActions[] = [];
 
+        if (element.soulBindable) actions.push(Modules.MenuActions.BindSoul);
         if (element.edible) actions.push(Modules.MenuActions.Eat);
         if (element.equippable) actions.push(Modules.MenuActions.Equip);
 
@@ -210,9 +235,17 @@ export default class Inventory extends Menu {
      * @param count Integer value to assign to the slot.
      * @param edible Boolean value that determines if the item in the slot is edible.
      * @param equippable Boolean value that determines if the item in the slot is equippable.
+     * @param soulBindable Boolean value that determines if the item in the slot is soul bindable.
      */
 
-    private setSlot(index: number, key = '', count = 1, edible = false, equippable = false): void {
+    private setSlot(
+        index: number,
+        key = '',
+        count = 1,
+        edible = false,
+        equippable = false,
+        soulBindable = false
+    ): void {
         let slotElement = this.getElement(index);
 
         if (!slotElement) return log.error(`Could not find slot element at: ${index}`);
@@ -226,6 +259,7 @@ export default class Inventory extends Menu {
         // Update the edible and equippable properties.
         slotElement.edible = edible;
         slotElement.equippable = equippable;
+        slotElement.soulBindable = soulBindable;
     }
 
     /**

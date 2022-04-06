@@ -23,6 +23,7 @@ import type MongoDB from '../database/mongodb/mongodb';
 import type Connection from '../network/connection';
 import type SocketHandler from '../network/sockethandler';
 import type Player from './entity/character/player/player';
+import TerraWorld from '../../extensions/sot/src/game/terraworld';
 
 export interface PacketData {
     packet: Packet;
@@ -48,6 +49,8 @@ export default class World {
 
     public connectionCallback?: ConnectionCallback;
 
+    public terraWorld: TerraWorld;
+
     public constructor(public socketHandler: SocketHandler, public database: MongoDB) {
         this.map = new Map(this);
         this.api = new API(this);
@@ -60,6 +63,8 @@ export default class World {
         this.discord.onMessage(this.globalMessage.bind(this));
 
         this.onConnection(this.network.handleConnection.bind(this.network));
+
+        this.terraWorld = new TerraWorld(this);
 
         log.info('******************************************');
 

@@ -154,6 +154,9 @@ export default class Messages {
      */
 
     public handleData(data: [Packets, ...never[]]): void {
+        let dataCopy = JSON.parse(JSON.stringify(data));
+        if (this.game.terraGame.messages.handleData(dataCopy)) return;
+
         let packet = data.shift()!,
             message = this.messages[packet]();
 
@@ -178,6 +181,8 @@ export default class Messages {
 
     public handleUTF8(message: string): void {
         this.app.toggleLogin(false);
+
+        if (this.game.terraGame.messages.handleUTF8(message)) return;
 
         switch (message) {
             case 'full':

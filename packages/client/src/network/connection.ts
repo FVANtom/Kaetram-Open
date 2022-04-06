@@ -776,6 +776,7 @@ export default class Connection {
         this.game.player.despawn();
 
         this.app.body.classList.add('death');
+        this.app.respawn.classList.add('active-pointer-events');
     }
 
     /**

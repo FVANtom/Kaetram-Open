@@ -105,13 +105,13 @@ export default class Handler {
 
         this.clear();
 
-        if (this.player.ready) {
-            if (config.discordEnabled)
-                this.world.discord.sendMessage(this.player.username, 'has logged out!');
+        if (
+            this.player.ready && //if (config.discordEnabled)
+            //this.world.discord.sendMessage(this.player.username, 'has logged out!');
 
-            if (config.hubEnabled)
-                this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged out!');
-        }
+            config.hubEnabled
+        )
+            this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged out!');
 
         this.world.entities.removePlayer(this.player);
 
@@ -172,7 +172,27 @@ export default class Handler {
         // If the door has an achievement associated with it, it gets completed here.
         if (door.achievement) this.player.achievements.get(door.achievement)?.finish();
 
-        this.player.teleport(door.x, door.y);
+        let doorX = door.x,
+            doorY = door.y;
+        switch (door.orientation) {
+            case 'u':
+                doorY += -1;
+                this.player.setOrientation(Modules.Orientation.Up);
+                break;
+            case 'd':
+                doorY += 1;
+                this.player.setOrientation(Modules.Orientation.Down);
+                break;
+            case 'l':
+                doorX += -1;
+                this.player.setOrientation(Modules.Orientation.Left);
+                break;
+            case 'r':
+                doorX += 1;
+                this.player.setOrientation(Modules.Orientation.Right);
+                break;
+        }
+        this.player.teleport(doorX, doorY);
 
         log.debug(`[Handler] Going through door: ${door.x} - ${door.y}`);
     }
@@ -258,7 +278,7 @@ export default class Handler {
         this.player.send(
             new Container(Opcodes.Container.Batch, {
                 type: Modules.ContainerType.Inventory,
-                data: this.player.inventory.serialize()
+                data: this.player.inventory?.serialize()
             })
         );
     }
@@ -425,7 +445,7 @@ export default class Handler {
         // Checks if the mob has a active quest associated with it.
         let quest = this.player.quests.getQuestFromMob(character as Mob);
 
-        if (quest) quest.killCallback?.(character as Mob);
+        if (quest) quest.killCallback?.(character as Mob, this.player as Player);
 
         // Checks if the mob has an active achievement associated with it.
         let achievement = this.player.achievements.getAchievementFromEntity(character as Mob);
@@ -457,7 +477,10 @@ export default class Handler {
          * It will not accomplish much, but it is enough for now.
          */
 
-        if (this.player.cheatScore > 10) this.player.timeout();
+        //if (this.player.cheatScore > 10) this.player.timeout();
+
+        if (this.player.cheatScore > 10)
+            log.info(`Cheat score - ${this.player.name}: ${this.player.cheatScore}`);
 
         log.debug(`Cheat score - ${this.player.cheatScore}`);
     }

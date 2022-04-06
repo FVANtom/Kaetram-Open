@@ -237,6 +237,11 @@ export default abstract class Entity {
         return this.type === Modules.EntityType.Mob;
     }
 
+    public isConstruct(): boolean {
+        // TODO this is crappy, refactor it later on.
+        return this.isMob() && this.name.includes("'s");
+    }
+
     public isNPC(): boolean {
         return this.type === Modules.EntityType.NPC;
     }

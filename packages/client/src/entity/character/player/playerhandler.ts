@@ -169,7 +169,9 @@ export default class PlayerHandler {
     isAttackable(): boolean {
         let { target } = this.player;
 
-        return target ? target.isMob() || (target.isPlayer() && target.pvp) : false;
+        return target
+            ? (target.isMob() && !target.isConstruct()) || (target.isPlayer() && target.pvp)
+            : false;
     }
 
     checkBounds(): void {

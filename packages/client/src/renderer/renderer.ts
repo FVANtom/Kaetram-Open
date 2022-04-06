@@ -331,21 +331,34 @@ export default class Renderer {
         this.updateDrawingView();
 
         this.forEachVisibleTile((tile: RegionTile, index: number) => {
+            let tileId = typeof tile === 'number' ? tile : tile.tileId,
+                isShadow = false,
+                isHigh = false;
+            if (tileId > 40_000) {
+                tileId -= 40_000;
+                isShadow = true;
+            } else if (tileId > 20_000) {
+                tileId -= 20_000;
+                isHigh = true;
+            }
+
             let flips: number[] = this.getFlipped(tile);
 
             // Extract the tileId from the animated region tile.
-            if (flips.length > 0) tile = tile.tileId;
+            if (flips.length > 0) tileId = tile.tileId;
 
             // Determine the layer of the tile depending on if it is a high tile or not.
-            let isHighTile = this.map.isHighTile(tile),
-                context = isHighTile ? this.foreContext : this.backContext;
+            let isHighTile = this.map.isHighTile(tileId),
+                context = isHighTile || isHigh ? this.foreContext : this.backContext;
 
             // Only do the lighting logic if there is an overlay.
             if (this.game.overlays.hasOverlay()) {
-                let isLightTile = this.map.isLightTile(tile);
+                let isLightTile = this.map.isLightTile(tileId);
 
                 context = isLightTile ? this.overlayContext : context;
             }
+
+            context.globalAlpha = isShadow ? 0.3 : 1;
 
             /**
              * Draws the animated tiles first so they display behind potential
@@ -368,8 +381,8 @@ export default class Renderer {
             }
 
             // Skip animated tiles unless we disable animations, then just draw the tile once.
-            if (!this.map.isAnimatedTile(tile) || !this.animateTiles)
-                this.drawTile(context, tile - 1, index, flips);
+            if (!this.map.isAnimatedTile(tileId) || !this.animateTiles)
+                this.drawTile(context as CanvasRenderingContext2D, tileId - 1, index, flips);
         });
 
         this.saveFrame();

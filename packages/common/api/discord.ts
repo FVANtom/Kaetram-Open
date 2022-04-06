@@ -36,8 +36,10 @@ export default class Discord {
             if (this.client.user?.id === message.author.id) return; // Skip if it's the bot.
             if (!message.content) return; // Picture sent or something.
 
-            let source = `[Discord | ${message.author.username}]`,
-                text = `@goldenrod@${message.content}`;
+            if (message.author.username.toLowerCase() === 'spirits of terra') return;
+
+            let source = `[Discord] ${message.author.username}`,
+                text = `${message.content}`;
 
             this.messageCallback?.(source, text, 'tomato');
         } catch {

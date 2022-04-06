@@ -94,7 +94,18 @@ export default class Storage {
      */
 
     public save(): void {
-        if (this.data) storage.setItem(name, JSON.stringify(this.data));
+        if (this.data) {
+            let { map } = this.data;
+            this.data.map = {
+                regionData: [],
+                grid: [],
+                objects: [],
+                cursorTiles: {}
+            };
+            let dataString = JSON.stringify(this.data);
+            this.data.map = map;
+            storage.setItem(name, dataString);
+        }
     }
 
     /**

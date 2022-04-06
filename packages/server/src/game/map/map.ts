@@ -2,7 +2,7 @@ import _ from 'lodash-es';
 
 import { Modules } from '@kaetram/common/network';
 
-import mapData from '../../../data/map/world.json';
+import mapData from '../../../extensions/sot/data/map/world.json';
 import AreasIndex from './areas';
 import Grids from './grids';
 import Regions from './regions';

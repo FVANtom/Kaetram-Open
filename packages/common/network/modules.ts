@@ -16,7 +16,8 @@ export enum PacketType {
 
 export enum ContainerType {
     Bank,
-    Inventory
+    Inventory,
+    Spirits
 }
 
 export enum Orientation {
@@ -39,7 +40,8 @@ export enum EntityType {
     Mob,
     Chest,
     Projectile,
-    Object
+    Object,
+    Construct
 }
 
 /**
@@ -67,7 +69,10 @@ export enum MenuActions {
     Drop = 'Drop',
     Equip = 'Equip',
     Eat = 'Eat',
-    Move = 'Move'
+    Move = 'Move',
+    BindSoul = 'Bind Soul',
+    EditSpiritCore = 'Edit',
+    ManifestSpiritCore = 'Manifest'
 }
 
 export enum Hits {
@@ -342,10 +347,10 @@ export const enum Constants {
     MAX_PROFESSION_LEVEL = 99, // Totally not influenced by another game lol
     HEAL_RATE = 5000, // healing every 10 seconds
     STORE_UPDATE_FREQUENCY = 20_000, // update store every 20 seconds
-    MAP_DIVISION_SIZE = 64, // The size of a region the map is split into.
-    SPAWN_POINT = '56,46', // Default starting point outside the tutorial
+    MAP_DIVISION_SIZE = 32, // The size of a region the map is split into.
+    SPAWN_POINT = '861,786', // Default starting point outside the tutorial
     TUTORIAL_QUEST_KEY = 'tutorial', // key of the tutorial quest
-    TUTORIAL_SPAWN_POINT = '571,10', // 'x,y' values
+    TUTORIAL_SPAWN_POINT = '861,786', // 'x,y' values
     TREE_REGROW = 30_000,
     SKILL_LOOP = 1000 // How often we check the loop of a skill
 }
@@ -367,9 +372,9 @@ export enum Defaults {
 // Defaults that apply specifically to mobs
 export enum MobDefaults {
     EXPERIENCE = 1, // Default 1 exp granted if not specified
-    AGGRO_RANGE = 2, // Default aggro range of 2 tiles
+    AGGRO_RANGE = 15, // Default aggro range of 2 tiles
     RESPAWN_DELAY = 60_000, // 60 seconds to respawn
-    ROAM_DISTANCE = 7, // 7 tiles away from spawn point
+    ROAM_DISTANCE = 30, // 7 tiles away from spawn point
     ROAM_FREQUENCY = 17_000, // Roam interval every 17 seconds
     DEFENSE_LEVEL = 1,
     ATTACK_LEVEL = 1

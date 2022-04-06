@@ -681,7 +681,8 @@ export default class Player extends Character {
                 return this.sendToSpawn();
 
             this.notify(`Noclip detected in your movement, please submit a bug report.`);
-            this.teleport(this.oldX, this.oldY);
+            // TODO this teleport causes an infinite loop and crashes the server if the player is on a blocked tile
+            //this.teleport(this.oldX, this.oldY);
             return;
         }
 

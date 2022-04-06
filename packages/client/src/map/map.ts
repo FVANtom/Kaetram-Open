@@ -1,7 +1,7 @@
 import _ from 'lodash-es';
 
 import log from '../lib/log';
-import mapData from '../../data/maps/map.json';
+import mapData from '../../extensions/sot/data/maps/map.json';
 
 import type Game from '../game';
 import { isInt } from '../utils/util';
@@ -210,6 +210,9 @@ export default class Map {
             this.cursorTiles = data.cursorTiles;
 
             this.preloadedData = true;
+            this.grid = data.grid;
+            this.objects = data.objects;
+            this.cursorTiles = data.cursorTiles;
         }
     }
 

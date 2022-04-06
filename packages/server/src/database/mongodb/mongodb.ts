@@ -126,6 +126,8 @@ export default class MongoDB {
                 log.debug(`No player data found for ${player.username}, creating user.`);
 
                 player.load(Creator.serializePlayer(player));
+
+                this.creator.save(player);
             });
         });
     }
@@ -154,6 +156,10 @@ export default class MongoDB {
         if (!this.database) log.error('No connection established for the database.');
 
         return !!this.database;
+    }
+
+    public getDatabase(): Db {
+        return this.database;
     }
 
     /**
