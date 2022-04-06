@@ -16,4 +16,5 @@ export interface SlotData {
     edible?: boolean;
     equippable?: boolean;
     price?: number;
+    soulBindable?: boolean;
 }

@@ -1,7 +1,7 @@
-import { Constants } from '@kaetram/common/network/modules';
 import { ObjectBuilder } from 'typescript-object-builder';
 import { PlayerInfo } from '@kaetram/e2e/cypress/entities/playerinfo';
 import defaultPlayerInfo from '@kaetram/e2e/cypress/fixtures/playerinfo.default.json';
+import { getSpawnPoint } from '@kaetram/common/extensions/sot/network/modules';
 
 export default abstract class WorldContext {
     public USERNAME = 'fvantom';
@@ -36,7 +36,7 @@ export default abstract class WorldContext {
         // TODO do not reset the whole collection
         cy.resetCollection('player_info');
 
-        let [x, y] = Constants.SPAWN_POINT?.split(',') || [0, 0];
+        let [x, y] = getSpawnPoint()?.split(',') || [0, 0];
         cy.log(`injectDefaultData: ${x}, ${y}`);
         let playerInfo = ObjectBuilder.basedOn<PlayerInfo>(defaultPlayerInfo)
             .with('username', this.USERNAME)

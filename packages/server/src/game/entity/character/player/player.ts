@@ -56,6 +56,10 @@ import {
     Spawn,
     Respawn
 } from '@kaetram/server/src/network/packets';
+import {
+    getSpawnPoint,
+    getTutorialSpawnPoint
+} from '@kaetram/common/extensions/sot/network/modules';
 
 type KillCallback = (character: Character) => void;
 type NPCTalkCallback = (npc: NPC) => void;
@@ -749,7 +753,8 @@ export default class Player extends Character {
                 return this.sendToSpawn();
 
             this.notify(`Noclip detected in your movement, please submit a bug report.`);
-            this.teleport(this.oldX, this.oldY);
+            // TODO this teleport causes an infinite loop and crashes the server if the player is on a blocked tile
+            //this.teleport(this.oldX, this.oldY);
             return;
         }
 
@@ -827,11 +832,11 @@ export default class Player extends Character {
 
     public getSpawn(): Position {
         if (!this.quests.isTutorialFinished())
-            return Utils.getPositionFromString(Modules.Constants.TUTORIAL_SPAWN_POINT);
+            return Utils.getPositionFromString(getTutorialSpawnPoint());
 
         if (this.inMinigame()) return this.getMinigame()?.getRespawnPoint(this.team);
 
-        return Utils.getPositionFromString(Modules.Constants.SPAWN_POINT);
+        return Utils.getPositionFromString(getSpawnPoint());
     }
 
     public getHit(target: Character): Hit | undefined {
@@ -1027,7 +1032,6 @@ export default class Player extends Character {
 
     public sendToSpawn(): void {
         let spawnPoint = this.getSpawn();
-
         this.teleport(spawnPoint.x, spawnPoint.y, true);
     }
 

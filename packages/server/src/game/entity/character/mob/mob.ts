@@ -14,6 +14,7 @@ import type Player from '../player/player';
 
 import PluginIndex from '../../../../../data/plugins/mobs';
 import rawData from '../../../../../data/mobs.json';
+import sotRawData from '../../../../../extensions/sot/data/mobs.json';
 import Spawns from '../../../../../data/spawns.json';
 import log from '@kaetram/common/util/log';
 
@@ -64,7 +65,7 @@ export default class Mob extends Character {
     public constructor(world: World, key: string, x: number, y: number) {
         super(Utils.createInstance(Modules.EntityType.Mob), world, key, x, y);
 
-        let data = (rawData as RawData)[key];
+        let data = (sotRawData as RawData)[key] || (rawData as RawData)[key];
 
         if (!data) {
             log.error(`[Mob] Could not find data for ${key}.`);
@@ -115,7 +116,10 @@ export default class Mob extends Character {
 
         // The roaming interval if the mob is a roaming entity.
         if (data.roaming)
-            setInterval(() => this.roamingCallback?.(), Modules.MobDefaults.ROAM_FREQUENCY);
+            setTimeout(() => {
+                this.roamingCallback?.();
+                setInterval(() => this.roamingCallback?.(), Modules.MobDefaults.ROAM_FREQUENCY);
+            }, Utils.randomInt(0, Modules.MobDefaults.ROAM_FREQUENCY - 1));
     }
 
     /**

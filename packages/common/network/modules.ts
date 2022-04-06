@@ -18,7 +18,8 @@ export enum PacketType {
 
 export enum ContainerType {
     Bank,
-    Inventory
+    Inventory,
+    Spirits
 }
 
 export enum Orientation {
@@ -41,7 +42,8 @@ export enum EntityType {
     Mob,
     Chest,
     Projectile,
-    Object
+    Object,
+    Construct
 }
 
 export type HealTypes = 'passive' | 'hitpoints' | 'mana';
@@ -71,7 +73,10 @@ export enum MenuActions {
     Drop = 'Drop',
     Equip = 'Equip',
     Eat = 'Eat',
-    Move = 'Move'
+    Move = 'Move',
+    BindSoul = 'Bind Soul',
+    EditSpiritCore = 'Edit',
+    ManifestSpiritCore = 'Manifest'
 }
 
 export enum Hits {
@@ -375,9 +380,9 @@ export enum Defaults {
 // Defaults that apply specifically to mobs
 export enum MobDefaults {
     EXPERIENCE = 1, // Default 1 exp granted if not specified
-    AGGRO_RANGE = 2, // Default aggro range of 2 tiles
+    AGGRO_RANGE = 15, // Default aggro range of 2 tiles
     RESPAWN_DELAY = 60_000, // 60 seconds to respawn
-    ROAM_DISTANCE = 7, // 7 tiles away from spawn point
+    ROAM_DISTANCE = 30, // 7 tiles away from spawn point
     ROAM_FREQUENCY = 17_000, // Roam interval every 17 seconds
     DEFENSE_LEVEL = 1,
     ATTACK_LEVEL = 1

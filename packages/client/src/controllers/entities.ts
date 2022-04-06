@@ -86,10 +86,19 @@ export default class EntitiesController {
             case Modules.EntityType.Player:
                 entity = this.createPlayer(info as PlayerData);
                 break;
+
+            case Modules.EntityType.Construct:
+                entity = this.createMob(info);
+                break;
         }
 
         // Something went wrong creating the entity.
-        if (!entity) return log.error(`Failed to create entity ${info.instance}`);
+        if (!entity)
+            return log.error(
+                `Failed to create entity ${info.instance} [${info.type.toString()},${info.name},${
+                    info.x
+                },${info.y}]`
+            );
 
         let sprite = this.game.sprites.get(entity.isItem() ? `item-${info.key}` : info.key);
 
