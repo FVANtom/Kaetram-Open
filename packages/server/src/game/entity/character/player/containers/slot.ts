@@ -2,9 +2,10 @@ import { SlotData } from '@kaetram/common/types/slot';
 
 import Item from '../../../objects/item';
 
-export default class Slot {
+export default class Slot<SD extends SlotData = SlotData> {
     public edible = false;
     public equippable = false;
+    public soulBindable = false;
 
     // Max amount of an item we can put in a slot.
     private maxStackSize = 1;
@@ -32,6 +33,7 @@ export default class Slot {
 
         this.edible = item.edible;
         this.equippable = item.isEquippable();
+        this.soulBindable = item.soulBindable;
 
         if (item.stackable) this.maxStackSize = item.maxStackSize;
 
@@ -90,6 +92,7 @@ export default class Slot {
 
         this.edible = false;
         this.equippable = false;
+        this.soulBindable = false;
         this.maxStackSize = 1;
     }
 
@@ -119,17 +122,18 @@ export default class Slot {
      * @returns SlotData interface object.
      */
 
-    public serialize(): SlotData {
-        let { index, key, count, ability, abilityLevel, edible, equippable } = this;
+    public serialize(): SD {
+        let { index, key, count, ability, abilityLevel, edible, equippable, soulBindable } = this;
 
-        return {
+        return <SD>{
             index,
             key,
             count,
             ability,
             abilityLevel,
             edible,
-            equippable
+            equippable,
+            soulBindable
         };
     }
 }

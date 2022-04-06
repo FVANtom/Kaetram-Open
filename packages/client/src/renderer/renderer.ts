@@ -3,17 +3,15 @@ import _ from 'lodash';
 import Tile from './tile';
 import Camera from './camera';
 import Item from '../entity/objects/item';
-import { isMobile, isTablet, isEdge } from '../utils/detect';
+import { isMobile, isTablet } from '../utils/detect';
 import Character from '../entity/character/character';
-
-import type EntitiesController from '../controllers/entities';
-import type InputController from '../controllers/input';
 import type Player from '../entity/character/player/player';
 import type Entity from '../entity/entity';
 import type Sprite from '../entity/sprite';
 import type Game from '../game';
 import type Map from '../map/map';
 import type Splat from './infos/splat';
+import { HighLayerIndexes } from '@kaetram/common/network/modules';
 
 import { RegionTile } from './../../../common/types/region';
 import { DarkMask, Lamp, Lighting, RectangleObject, Vec2 } from 'illuminated';
@@ -331,10 +329,10 @@ export default class Renderer {
         // Sets the view according to the camera.
         this.updateDrawingView();
 
-        this.forEachVisibleTile((tile: RegionTile, index: number) => {
+        this.forEachVisibleTile((tile: RegionTile, index: number, layerIndex = 0) => {
             // Determine the layer of the tile depending on if it is a high tile or not.
             let isHighTile = this.map.isHighTile(tile),
-                context = isHighTile ? this.foreContext : this.backContext;
+                context = isHighTile || HighLayerIndexes.includes(layerIndex) ? this.foreContext : this.backContext;
 
             // Only do the lighting logic if there is an overlay.
             if (this.game.overlays.hasOverlay()) {
@@ -1572,7 +1570,7 @@ export default class Renderer {
      */
 
     private forEachVisibleTile(
-        callback: (data: RegionTile, index: number) => void,
+        callback: (data: RegionTile, index: number, layerIndex?: number) => void,
         offset?: number
     ): void {
         if (!this.map || !this.map.mapLoaded) return;
@@ -1582,6 +1580,14 @@ export default class Renderer {
 
             if (Array.isArray(indexData)) for (let data of indexData) callback(data, index);
             else if (this.map.data[index]) callback(this.map.data[index], index);
+
+            if (Array.isArray(indexData)) {
+                let layerIndex = 0;
+                for (let data of indexData) {
+                    callback(data, index, layerIndex);
+                    layerIndex++;
+                }
+            } else if (this.map.data[index]) callback(this.map.data[index], index);
         }, offset);
     }
 

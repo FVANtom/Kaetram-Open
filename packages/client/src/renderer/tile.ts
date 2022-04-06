@@ -22,7 +22,7 @@ export default class Tile {
      */
 
     public animate(time: number): void {
-        if (time - this.lastTime > this.animationInfo[this.animationIndex].duration) {
+        if (time - this.lastTime > this.animationInfo[this.animationIndex]?.duration) {
             this.id = this.animationInfo[this.animationIndex].tileId;
 
             this.lastTime = time;

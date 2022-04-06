@@ -12,6 +12,8 @@
         "discord.js": "^12.5.3",
         "dotenv-extended": "^2.9.0",
         "dotenv-parse-variables": "^2.0.0",
+        "esbuild": "^0.14.27",
+        "esbuild-node-externals": "^1.4.1",
         "express": "^4.17.3",
         "lodash": "^4.17.21",
         "mongodb": "^4.5.0"

@@ -89,7 +89,7 @@ export default class App {
 
         this.about.on('click', () => this.openScroll('about'));
         this.credits.on('click', () => this.openScroll('credits'));
-        this.discord.on('click', () => window.open('https://discord.gg/MmbGAaw'));
+        this.discord.on('click', () => window.open('https://discord.gg/E8M5gPC'));
 
         this.respawn.on('click', () => this.respawnCallback?.());
 

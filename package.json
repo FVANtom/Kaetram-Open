@@ -1,19 +1,24 @@
 {
-    "name": "kaetram",
-    "version": "1.3.1",
+    "name": "spiritsofterra",
+    "version": "0.0.1",
     "private": true,
-    "packageManager": "yarn@3.2.0",
-    "author": "Veradictus",
-    "description": "Kaetram is an open-source game-engine created to aid those interested in entering the game development realm. The original idea is based on Little Workshop's demo game - BrowserQuest. The assets have remained the same, but the code itself has been completely wiped and redone from the ground up.",
-    "homepage": "https://kaetram.com/",
-    "license": "MPL-2.0",
+    "packageManager": "yarn@3.2.1",
+    "author": "FVANtom",
+    "description": "",
+    "homepage": "https://spiritsofterra.com/",
     "scripts": {
         "postinstall": "husky install",
         "packages": "yarn workspaces foreach --no-private -j 3 -piv run",
         "dev": "yarn packages dev",
+        "dev:server": "yarn workspace @kaetram/server dev",
+        "dev:client": "yarn workspace @kaetram/client dev",
         "hub": "yarn packages hub",
         "start": "yarn packages start",
+        "start:server": "yarn workspace @kaetram/server start",
+        "start:client": "yarn workspace @kaetram/client start",
         "build": "yarn packages build",
+        "build:server": "yarn workspace @kaetram/server build",
+        "build:client": "yarn workspace @kaetram/client build",
         "lint:js": "eslint packages/**/*.ts --ignore-path .gitignore",
         "lint:style": "stylelint packages/**/*.scss --ignore-path .gitignore",
         "lint:fix": "yarn lint:js --fix && yarn lint:style --fix",
@@ -46,7 +51,7 @@
         "packages/*"
     ],
     "engines": {
-        "node": "^14.19.0 || ^16.10.0 || ^18.0.0"
+        "node": "^17.8.0"
     },
     "repository": "git+https://github.com/Kaetram/Kaetram-Open.git",
     "bugs": {

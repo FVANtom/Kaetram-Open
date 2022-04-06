@@ -33,7 +33,8 @@ export default class Container {
             info.edible,
             info.equippable,
             info.name,
-            info.price
+            info.price,
+            info.soulBindable
         );
 
         this.slots.push(slot);
@@ -53,7 +54,8 @@ export default class Container {
             info.edible,
             info.equippable,
             info.name,
-            info.price
+            info.price,
+            info.soulBindable
         );
     }
 }

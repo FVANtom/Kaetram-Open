@@ -110,6 +110,8 @@ export default class Socket {
 
         log.info('Connection established...');
 
+        this.game.terraGame.connect();
+
         this.game.app.updateLoader('Preparing Handshake');
 
         this.connection.emit('client', {
@@ -130,7 +132,6 @@ export default class Socket {
         this.game.app.toggleLogin(false);
 
         this.game.app.sendError(
-            null,
             window.config.debug
                 ? `Couldn't connect to ${host}:${port}`
                 : 'Could not connect to the game server.'

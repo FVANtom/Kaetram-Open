@@ -11,6 +11,7 @@ export interface ItemData {
     name: string;
     stackable?: boolean;
     edible?: boolean;
+    soulBindable?: boolean;
     maxStackSize?: number;
     plugin?: string;
     price?: number;

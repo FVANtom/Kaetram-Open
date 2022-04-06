@@ -6,10 +6,11 @@ import { VitePWA as pwa } from 'vite-plugin-pwa';
 import legacy from '@vitejs/plugin-legacy';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import compress from 'vite-plugin-compress';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-import { name, description } from '../../package.json';
-
-let expose = ['name', 'host', 'ssl', 'worldSwitch', 'serverId'] as const;
+let name = 'spiritsofterra',
+    description = '',
+    expose = ['name', 'host', 'ssl', 'worldSwitch', 'serverId'] as const;
 
 interface ExposedConfig extends Pick<Config, typeof expose[number]> {
     debug: boolean;
@@ -73,7 +74,7 @@ export default defineConfig(({ command }) => {
                     display: 'fullscreen',
                     background_color: '#000000',
                     theme_color: '#000000',
-                    icons: [192, 512].map((size) => {
+                    icons: [144].map((size) => {
                         let sizes = `${size}x${size}`;
 
                         return {
@@ -97,7 +98,35 @@ export default defineConfig(({ command }) => {
             createHtmlPlugin({
                 minify: isProduction && { processScripts: ['application/ld+json'] }
             }),
-            compress({ brotli })
+            compress({ brotli }),
+            viteStaticCopy({
+                targets: [
+                    {
+                        src: './extensions/sot/public/img/tilesets/*.*',
+                        dest: './img/tilesets/'
+                    },
+                    {
+                        src: './extensions/sot/public/img/sprites/*.*',
+                        dest: './img/sprites/'
+                    },
+                    {
+                        src: './extensions/sot/public/*.*',
+                        dest: '.'
+                    },
+                    {
+                        src: './extensions/sot/public/img/icons',
+                        dest: './img'
+                    },
+                    {
+                        src: './extensions/sot/public/img/*.*',
+                        dest: './img'
+                    },
+                    {
+                        src: './extensions/sot/public/img/3/*.*',
+                        dest: './img/3'
+                    }
+                ]
+            })
         ],
         build: {
             sourcemap: false,
@@ -105,6 +134,12 @@ export default defineConfig(({ command }) => {
             chunkSizeWarningLimit: 4e3
         },
         server: { port: 9000 },
-        define: { 'window.config': env }
+        define: {
+            'window.config': env,
+            'process.env': {}
+        },
+        resolve: {
+            preserveSymlinks: true
+        }
     };
 });

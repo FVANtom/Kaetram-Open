@@ -76,7 +76,10 @@ export default class Inventory {
             info.ability,
             info.abilityLevel,
             info.edible,
-            info.equippable
+            info.equippable,
+            '',
+            0,
+            info.soulBindable
         );
 
         let cssSlot = item.find(`#slot${info.index}`);
@@ -121,13 +124,18 @@ export default class Inventory {
 
         if (slot.key === null || slot.count === -1 || slot.key === 'null') return;
 
-        this.actions.loadDefaults('inventory');
+        this.actions.loadDefaults('inventory', {mouseX: event.pageX, mouseY: event.pageY, pvp: false});
 
         if (slot.edible) this.actions.add($('<div id="eat" class="action-button">Eat</div>'));
         else if (slot.equippable)
             this.actions.add($('<div id="wield" class="action-button">Wield</div>'));
         else if (slot.count > 999_999)
             this.actions.add($('<div id="item-info" class="action-button">Info</div>'));
+
+        if (slot.soulBindable)
+            this.actions.add($('<div id="soul-bind" class="action-button">Bind Soul</div>'));
+
+        this.actions.add($(`<h1 class="title">${slot.key?.replaceAll('-', ' ')}</h1>`));
 
         if (!this.actions.isVisible()) this.actions.show();
 
@@ -164,6 +172,10 @@ export default class Inventory {
         let action = (event as JQuery.ClickEvent).currentTarget?.id || event;
 
         if (!this.selectedSlot || !this.selectedItem) return;
+
+        this.actions.hide();
+
+        if (this.game.terraGame.menu.clickAction(action, this.selectedItem)) return;
 
         switch (action) {
             case 'eat':
@@ -224,9 +236,11 @@ export default class Inventory {
 
                 break;
             }
+            case 'soul-bind':
+                // add soul binding logic here
+                this.clearSelection();
+                break;
         }
-
-        this.actions.hide();
     }
 
     public remove(info: SlotData): void {

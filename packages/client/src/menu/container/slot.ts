@@ -7,6 +7,7 @@ export default class Slot {
     public abilityLevel = -1;
     public edible = false;
     public equippable = false;
+    public soulBindable = false;
     public price = 0;
 
     public constructor(public index: number) {}
@@ -19,7 +20,8 @@ export default class Slot {
         edible = false,
         equippable = false,
         name = '',
-        price = 0
+        price = 0,
+        soulBindable = false
     ): void {
         this.key = key;
         this.count = count;
@@ -30,6 +32,7 @@ export default class Slot {
         this.edible = edible;
         this.equippable = equippable;
         this.price = price;
+        this.soulBindable = soulBindable;
     }
 
     public empty(): void {
@@ -42,6 +45,7 @@ export default class Slot {
         this.edible = false;
         this.equippable = false;
         this.price = 0;
+        this.soulBindable = false;
     }
 
     public isEmpty(): boolean {

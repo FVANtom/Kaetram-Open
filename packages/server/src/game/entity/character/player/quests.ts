@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Player from './player';
 import Quest from './quest/quest';
 
-import QuestIndex from './quest/impl';
+import QuestIndex from '../../../../../extensions/sot/src/game/entity/character/player/quest/impl';
 
 import { Quest as QuestPacket } from '../../../../network/packets';
 
@@ -11,7 +11,7 @@ import { Modules, Opcodes } from '@kaetram/common/network';
 import { QuestData, RawQuest, SerializedQuest } from '@kaetram/common/types/quest';
 
 // Raw quest data
-import quests from '../../../../../data/quests.json';
+import quests from '../../../../../extensions/sot/data/quests.json';
 import NPC from '../../npc/npc';
 import Mob from '../mob/mob';
 import { PointerData } from '@kaetram/common/types/pointer';

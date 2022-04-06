@@ -52,7 +52,6 @@ import type {
 } from '@kaetram/common/types/messages';
 import type App from '../app';
 import type Game from '../game';
-import type { AudioName } from '../controllers/audio';
 import { EquipmentData, SerializedEquipment } from '@kaetram/common/types/equipment';
 import { EntityData } from '@kaetram/common/types/entity';
 
@@ -93,7 +92,7 @@ interface ExperienceCallback {
     (Opcodes: Opcodes.Experience.Skill, data: ExperienceProfessionData): void;
 }
 type DeathCallback = (id: string) => void;
-type AudioCallback = (song: AudioName) => void;
+type AudioCallback = (song: string) => void;
 interface NPCCallback {
     (opcode: Opcodes.NPC.Talk, data: NPCTalkData): void;
     (opcode: Opcodes.NPC.Store, data: NPCStoreData): void;
@@ -229,6 +228,10 @@ export default class Messages {
      */
 
     public handleData(data: [Packets, ...never[]]): void {
+        // console.log(JSON.stringify(data));
+        let dataCopy = JSON.parse(JSON.stringify(data));
+        if (this.game.terraGame.messages.handleData(dataCopy)) return;
+
         let packet = data.shift()!,
             message = this.messages[packet]();
 
@@ -253,6 +256,8 @@ export default class Messages {
 
     public handleUTF8(message: string): void {
         this.app.toggleLogin(false);
+
+        if (this.game.terraGame.messages.handleUTF8(message)) return;
 
         switch (message) {
             case 'full':

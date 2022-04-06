@@ -6,6 +6,10 @@ import Animation from '../entity/animation';
 
 import spriteData from '../../data/sprites.json';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import sotSpriteData from '../../../../../packages/sot-client/data/sprites.json';
+
 import type { SpriteData } from '../entity/sprite';
 
 export default class SpritesController {
@@ -24,7 +28,9 @@ export default class SpritesController {
      */
 
     public load(): void {
-        for (let data of spriteData as SpriteData[]) {
+        let sprites = [...(spriteData as SpriteData[]), ...(sotSpriteData as SpriteData[])];
+
+        for (let data of sprites) {
             let sprite = new Sprite(data);
 
             sprite.loadSprite();

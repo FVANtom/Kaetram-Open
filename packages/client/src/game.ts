@@ -28,6 +28,7 @@ import { agent } from './utils/detect';
 import { Modules, Packets } from '@kaetram/common/network';
 
 import type { APIData } from '@kaetram/common/types/api';
+import TerraGame from '../extensions/sot/src/terragame';
 
 export default class Game {
     public storage: Storage = this.app.storage;
@@ -46,13 +47,14 @@ export default class Game {
     public renderer: Renderer = new Renderer(this);
     public input: InputController = new InputController(this);
 
+    public menu: MenuController = new MenuController(this);
+    public terraGame: TerraGame = new TerraGame(this.app, this);
     public socket: Socket = new Socket(this);
     public pointer: Pointer = new Pointer(this);
     public updater: Updater = new Updater(this);
     public audio: AudioController = new AudioController(this);
     public entities: EntitiesController = new EntitiesController(this);
     public bubble: BubbleController = new BubbleController(this);
-    public menu: MenuController = new MenuController(this);
 
     public connection: Connection = new Connection(this);
 
@@ -193,6 +195,8 @@ export default class Game {
      * menu-based errors.
      */
     public handleDisconnection(): void {
+        this.terraGame.handleDisconnection();
+
         if (!this.app.isMenuHidden()) return;
 
         location.reload();

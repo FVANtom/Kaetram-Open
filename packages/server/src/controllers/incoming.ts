@@ -50,6 +50,8 @@ export default class Incoming {
         this.commands = new Commands(player);
 
         this.connection.onMessage(([packet, message]) => {
+            if (this.world.terraWorld.messages.onMessage(player, packet, message)) return;
+
             if (!Utils.validPacket(packet)) {
                 log.error(`Non-existent packet received: ${packet} data: `);
                 log.error(message);
@@ -158,7 +160,7 @@ export default class Incoming {
         this.player.loadSkills();
 
         this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged in!');
-        this.world.discord.sendMessage(this.player.username, 'has logged in!');
+        // this.world.discord.sendMessage(this.player.username, 'has logged in!');
 
         // TODO - cleanup
         if (

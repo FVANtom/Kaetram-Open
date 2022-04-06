@@ -180,9 +180,8 @@ web_modules/
 
 # dotenv environment variables file
 .env
-.env.test
-.env*.local
-.env.production
+.env.*
+!.env.defaults
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -380,3 +379,5 @@ $RECYCLE.BIN/
 .pnp.*
 
 # https://www.toptal.com/developers/gitignore/api/git,node,yarn,linux,macos,windows,visualstudiocode,webstorm,vim,emacs
+
+/packages/*/extensions/sot

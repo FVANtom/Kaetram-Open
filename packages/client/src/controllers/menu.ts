@@ -50,7 +50,7 @@ export default class MenuController {
     }
 
     public resize(): void {
-        let { inventory, profile, bank, enchant, shop, header } = this;
+        let { inventory, profile, bank, enchant, shop, header, game } = this;
 
         inventory?.resize();
 
@@ -65,6 +65,8 @@ export default class MenuController {
         header?.resize();
 
         this.resizeNotification();
+
+        game.terraGame.menu?.resize();
     }
 
     public loadProfile(): void {
@@ -118,6 +120,8 @@ export default class MenuController {
         warp?.clear();
 
         shop?.clear();
+
+        game.terraGame.menu?.clear();
     }
 
     public hideAll(): void {
@@ -138,6 +142,8 @@ export default class MenuController {
         if (warp?.isVisible()) warp.hide();
 
         if (shop?.isVisible()) shop.hide();
+
+        game.terraGame.menu?.hideAll();
     }
 
     private resizeNotification(): void {

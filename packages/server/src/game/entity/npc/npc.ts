@@ -3,12 +3,16 @@ import Entity from '../entity';
 import type Player from '../character/player/player';
 
 import rawData from '../../../../data/npcs.json';
+import rawSotData from '../../../../extensions/sot/data/npcs.json';
+
 import { NPC as NPCPacket } from '../../../network/packets';
 
 import log from '@kaetram/common/util/log';
 import Utils from '@kaetram/common/util/utils';
 import { Modules, Opcodes } from '@kaetram/common/network';
 import { NPCData } from '@kaetram/common/types/npc';
+import { Actor, DialogueItem } from '@kaetram/common/types/quest';
+import Bubble from '../../../network/packets/bubble';
 
 type RawData = {
     [key: string]: NPCData;
@@ -19,7 +23,7 @@ export default class NPC extends Entity {
 
     private data: NPCData;
 
-    private text: string[] = [];
+    private text: DialogueItem[] = [];
 
     public role?: string;
     public store = '';
@@ -27,7 +31,7 @@ export default class NPC extends Entity {
     public constructor(key: string, x: number, y: number) {
         super(Utils.createInstance(Modules.EntityType.NPC), key, x, y);
 
-        this.data = (rawData as RawData)[key];
+        this.data = (rawSotData as RawData)[key] || (rawData as RawData)[key];
 
         if (!this.data) {
             log.error(`[NPC] Could not find data for ${key}.`);
@@ -69,13 +73,40 @@ export default class NPC extends Entity {
         if (player.talkIndex > text.length - 1) player.talkIndex = 0;
         else player.talkIndex++;
 
-        // Send the network packet of the current dialogue index.
-        player.send(
-            new NPCPacket(Opcodes.NPC.Talk, {
-                id: this.instance,
-                text: message
-            })
-        );
+        let messageText,
+            actor: Actor = 'npc';
+        if (typeof message === 'string' || message?.actor === 'npc') messageText = message;
+        else {
+            messageText = message?.text || '';
+            actor = 'player';
+        }
+
+        if (actor === 'npc') {
+            // Send the network packet of the current dialogue index.
+            player.send(
+                new Bubble({
+                    id: player.instance
+                })
+            );
+            player.send(
+                new NPCPacket(Opcodes.NPC.Talk, {
+                    id: this.instance,
+                    text: messageText
+                })
+            );
+        } else {
+            player.send(
+                new NPCPacket(Opcodes.NPC.Talk, {
+                    id: this.instance
+                })
+            );
+            player.send(
+                new Bubble({
+                    id: player.instance,
+                    text: messageText
+                })
+            );
+        }
     }
 
     /**
@@ -83,7 +114,7 @@ export default class NPC extends Entity {
      * @returns If the dialogue array length is greater than 0.
      */
 
-    public hasDialogue(text: string[]): boolean {
+    public hasDialogue(text: DialogueItem[]): boolean {
         return text.length > 0;
     }
 }

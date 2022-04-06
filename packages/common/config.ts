@@ -56,9 +56,11 @@ export interface Config {
     fsDebugging: boolean;
 }
 
+let suffix = process.env.NODE_ENV === 'production' ? '.production' : '';
+console.log(`Loading config .env${suffix}`);
 let envConfig = dotenvParseVariables(
         dotenv.load({
-            path: '../../.env',
+            path: `../../.env${suffix}`,
             defaults: '../../.env.defaults',
             includeProcessEnv: true
         })

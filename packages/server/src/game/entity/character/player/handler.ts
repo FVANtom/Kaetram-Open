@@ -97,13 +97,13 @@ export default class Handler {
 
         this.clear();
 
-        if (this.player.ready) {
-            if (config.discordEnabled)
-                this.world.discord.sendMessage(this.player.username, 'has logged out!');
+        if (
+            this.player.ready && //if (config.discordEnabled)
+            //this.world.discord.sendMessage(this.player.username, 'has logged out!');
 
-            if (config.hubEnabled)
-                this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged out!');
-        }
+            config.hubEnabled
+        )
+            this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged out!');
 
         this.world.entities.removePlayer(this.player);
 
@@ -346,7 +346,7 @@ export default class Handler {
 
         let quest = this.player.quests.getQuestFromMob(character as Mob);
 
-        if (quest) quest.killCallback?.(character as Mob);
+        if (quest) quest.killCallback?.(character as Mob, this.player as Player);
     }
 
     /**

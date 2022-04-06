@@ -10,6 +10,7 @@ import type Areas from '../../../map/areas/areas';
 import type Player from '../player/player';
 
 import rawData from '../../../../../data/mobs.json';
+import sotRawData from '../../../../../extensions/sot/data/mobs.json';
 import log from '@kaetram/common/util/log';
 
 import { Modules, Opcodes } from '@kaetram/common/network';
@@ -64,7 +65,7 @@ export default class Mob extends Character {
         this.spawnX = x;
         this.spawnY = y;
 
-        this.data = (rawData as RawData)[key];
+        this.data = (sotRawData as RawData)[key] || (rawData as RawData)[key];
 
         if (!this.data) {
             log.error(`[Mob] Could not find data for ${key}.`);
@@ -151,7 +152,7 @@ export default class Mob extends Character {
             dropObjects = Object.keys(this.drops),
             item = dropObjects[Utils.randomInt(0, dropObjects.length - 1)];
 
-        if (random > this.drops[item]) return null;
+        if (random === -1 && random > this.drops[item]) return null;
 
         let count = item === 'gold' ? Utils.randomInt(this.level, this.level * 5) : 1;
 

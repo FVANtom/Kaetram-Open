@@ -16,7 +16,8 @@ export enum PacketType {
 
 export enum ContainerType {
     Bank,
-    Inventory
+    Inventory,
+    Spirits
 }
 
 export enum Orientation {
@@ -272,13 +273,15 @@ export const enum Constants {
     MAX_PROFESSION_LEVEL = 99, // Totally not influenced by another game lol
     HEAL_RATE = 10_000, // healing every 10 seconds
     STORE_UPDATE_FREQUENCY = 20_000, // update store every 20 seconds
-    MAP_DIVISION_SIZE = 64, // The size of a region the map is split into.
-    SPAWN_POINT = '325,86', // Default starting point outside the tutorial
+    MAP_DIVISION_SIZE = 32, // The size of a region the map is split into.
+    SPAWN_POINT = '271,271', // Default starting point outside the tutorial
     TUTORIAL_QUEST_KEY = 'tutorial', // key of the tutorial quest
-    TUTORIAL_SPAWN_POINT = '375,40', // 'x,y' values
+    TUTORIAL_SPAWN_POINT = '271,271', // 'x,y' values
     TREE_REGROW = 30_000,
     SKILL_LOOP = 1000 // How often we check the loop of a skill
 }
+
+export let HighLayerIndexes: number[] = [2, 3, 4];
 
 export enum APIConstants {
     UNHANDLED_HTTP_METHOD,
@@ -301,7 +304,7 @@ export enum MobDefaults {
     AGGRO_RANGE = 2, // Default aggro range of 2 tiles
     RESPAWN_DELAY = 60_000, // 60 seconds to respawn
     ROAM_DISTANCE = 7, // 7 tiles away from spawn point
-    ROAM_FREQUENCY = 7000, // Roam interval every 7 seconds
+    ROAM_FREQUENCY = 12_000, // Roam interval every 7 seconds
     DEFENSE_LEVEL = 1,
     ATTACK_LEVEL = 1
 }

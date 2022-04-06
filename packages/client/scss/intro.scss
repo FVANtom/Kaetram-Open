@@ -71,6 +71,10 @@ td {
     background-color: transparent;
 }
 
+h2 {
+    font-size: 75%;
+}
+
 canvas {
     position: absolute;
     image-rendering: optimizespeed;     /* Older versions of FF          */
@@ -119,6 +123,11 @@ footer {
     text-shadow: 0 1px 0 black;
     transition: 0.2s opacity linear;
     font-size: 18px;
+
+    a {
+        color: #c6c0a3;
+        text-decoration: inherit;
+    }
 }
 
 .link:hover {

@@ -42,7 +42,8 @@ export default class Map {
     private readyCallback?(): void;
 
     public constructor(private game: Game) {
-        this.load();
+       // this.load();
+        this.loadWithoutWorker();
     }
 
     /**
@@ -53,6 +54,26 @@ export default class Map {
     private ready(): void {
         if (this.mapLoaded && this.tilesetsLoaded) this.readyCallback?.();
         else window.setTimeout(() => this.ready(), 100);
+    }
+
+    /**
+     * Create an empty data and collision
+     * grid based on the map's dimensions.
+     */
+
+    private loadWithoutWorker() {
+        let { width, height, grid, data } = this;
+        for (let y = 0; y < height; y++) {
+            grid[y] = [];
+
+            for (let x = 0; x < width; x++) {
+                data.push(0);
+                grid[y][x] = 0;
+            }
+        }
+        this.mapLoaded = true;
+        this.loadTilesets();
+        this.ready();
     }
 
     /**
@@ -206,11 +227,11 @@ export default class Map {
         if (data.regionData.length > 0) {
             this.data = data.regionData;
             this.preloadedData = true;
+            this.grid = data.grid;
+            this.objects = data.objects;
+            this.cursorTiles = data.cursorTiles;
+            console.log('preloaded?');
         }
-
-        this.grid = data.grid;
-        this.objects = data.objects;
-        this.cursorTiles = data.cursorTiles;
     }
 
     /**

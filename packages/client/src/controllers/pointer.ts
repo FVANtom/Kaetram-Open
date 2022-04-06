@@ -209,7 +209,7 @@ export default class PointerController {
         });
     }
 
-    private get(id: string): Pointer | null {
+    private get(id: string): Arrow | null {
         let { pointers } = this;
 
         if (id in pointers) return pointers[id];

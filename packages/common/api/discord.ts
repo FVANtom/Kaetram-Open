@@ -33,10 +33,12 @@ export default class Discord {
     private handleMessage(message: Message): void {
         if (message.channel.id !== config.discordChannelId) return;
 
-        let source = `[Discord | ${message.author.username}]`,
-            text = `@goldenrod@${message.content}`;
+        if (message.author.username.toLowerCase() === 'spirits of terra') return;
 
-        this.messageCallback?.(source, text, 'tomato');
+        let source = `[Discord] ${message.author.username}`,
+            text = `${message.content}`;
+
+        this.messageCallback?.(source, text, 'lightblue');
     }
 
     /**

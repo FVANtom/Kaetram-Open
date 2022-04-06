@@ -10,5 +10,9 @@ build({
     platform: 'node',
     target: 'node14',
     sourcemap: true,
-    plugins: [nodeExternalsPlugin({ allowList: ['@kaetram/common'] })]
+    plugins: [
+        nodeExternalsPlugin({
+            allowList: ['@kaetram/common']
+        })
+    ]
 });

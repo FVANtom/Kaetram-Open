@@ -46,16 +46,12 @@ export default class Actions {
         if (data)
             this.body.css({
                 left: `${data.mouseX - this.body.width()! / 2}px`,
-                top: `${data.mouseY}${this.body.height()! / 2}px`
+                top: `${data.mouseY + 20}px`,
+                bottom: 'auto'
             });
 
         switch (this.activeClass) {
             case 'inventory': {
-                this.body.css({
-                    bottom: '10%',
-                    left: '10%'
-                });
-
                 let dropButton = $('<div id="drop" class="action-button">Drop</div>');
 
                 this.add(dropButton);
