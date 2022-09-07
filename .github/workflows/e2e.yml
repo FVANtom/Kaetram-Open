@@ -36,6 +36,7 @@ jobs:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
                   nodetail: true
                   nofail: false
-                  title: New code was added. Tests ${{ job.status }}!
+                  title: New code was added to the public SOT repository
                   description: |
+                      `Test status [${{ job.status }}]`
                       Click [here](https://github.com/FVANtom/SpiritsOfTerra-Open/actions/workflows/e2e.yml) for details.
