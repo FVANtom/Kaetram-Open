@@ -29,13 +29,3 @@ jobs:
               uses: cypress-io/github-action@v4
               with:
                   command: yarn workspace @kaetram/e2e test:run
-
-            - name: Notify discord
-              uses: sarisia/actions-status-discord@v1
-              with:
-                  webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                  nodetail: true
-                  nofail: false
-                  title: New code was added. Tests ${{ job.status }}!
-                  description: |
-                      Click [here](https://github.com/FVANtom/SpiritsOfTerra-Open/actions/workflows/e2e.yml) for details.
