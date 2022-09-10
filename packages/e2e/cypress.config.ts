@@ -27,5 +27,6 @@ export default defineConfig({
         baseUrl: 'http://localhost:9000',
         specPattern: '**/*.feature',
         setupNodeEvents
-    }
+    },
+    projectId: 'o7j1zq'
 });
