@@ -31,6 +31,7 @@ jobs:
                   command: yarn workspace @kaetram/e2e test:run
 
             - name: Notify discord
+              if: always()
               uses: sarisia/actions-status-discord@v1
               with:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
