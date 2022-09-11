@@ -2,8 +2,9 @@
 
 import { PlayerInfo } from '../entities/playerinfo';
 import { PlayerInventory } from '../entities/playerinventory';
+import { SotCollectionName } from '@kaetram/e2e/cypress/e2e/extensions/sot/support/sotrepository';
 
-type CollectionName = 'player_info' | 'player_inventory';
+type CollectionName = 'player_info' | 'player_inventory' | SotCollectionName;
 
 /**
  * Sample usage:
