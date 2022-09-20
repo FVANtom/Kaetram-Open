@@ -35,4 +35,8 @@ export default class TerraGame {
         );
         return false;
     }
+
+    public resize() {
+        log.debug(`TerraGame stub resize()`);
+    }
 }
