@@ -247,6 +247,8 @@ export default class Game {
         this.pointer.resize();
 
         this.menu.resize();
+
+        this.terraGame.resize();
     }
 
     /**

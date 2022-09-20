@@ -119,6 +119,10 @@ export default defineConfig(({ mode }) => {
                         dest: './img'
                     },
                     {
+                        src: './extensions/sot/public/img/2/*.*',
+                        dest: './img/2'
+                    },
+                    {
                         src: './extensions/sot/public/img/3/*.*',
                         dest: './img/3'
                     }

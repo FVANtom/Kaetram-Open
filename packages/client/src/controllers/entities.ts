@@ -17,6 +17,7 @@ import { Modules, Packets, Opcodes } from '@kaetram/common/network';
 
 import type Game from '../game';
 import type Entity from '../entity/entity';
+import Construct from '../../extensions/sot/src/entity/character/construct/construct';
 
 interface EntitiesCollection {
     [instance: string]: Entity;
@@ -88,7 +89,7 @@ export default class EntitiesController {
                 break;
 
             case Modules.EntityType.Construct:
-                entity = this.createMob(info);
+                entity = Construct.createConstruct(info, this.game);
                 break;
         }
 

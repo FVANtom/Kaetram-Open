@@ -550,10 +550,8 @@ export default class InputController {
      */
 
     private isAttackable(entity: Entity): boolean {
-        return (
-            (entity.isMob() && !entity.isConstruct()) ||
-            (entity.isPlayer() && this.game.pvp)
-        );    }
+        return (entity.isMob() && !entity.isConstruct()) || (entity.isPlayer() && this.game.pvp);
+    }
 
     /**
      * Checks if the last mouse position equals to that of the
