@@ -9,6 +9,7 @@ build({
     minify: true,
     platform: 'node',
     format: 'esm',
+    target: 'ESNext',
     sourcemap: true,
     plugins: [
         nodeExternalsPlugin({

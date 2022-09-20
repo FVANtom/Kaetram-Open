@@ -44,7 +44,7 @@ export default class World {
     public stores: Stores = new Stores(this);
     public globals: Globals = new Globals(this);
     public entities: Entities = new Entities(this);
-    public network: Network = new Network(this);
+    public network: Network;
     public minigames: Minigames = new Minigames(this);
 
     public discord: Discord = new Discord(config.hubEnabled);
@@ -53,14 +53,18 @@ export default class World {
 
     public connectionCallback?: ConnectionCallback;
 
-    public terraWorld: TerraWorld = new TerraWorld(this);
+    public terraWorld: TerraWorld;
 
     public constructor(public socketHandler: SocketHandler, public database: MongoDB) {
+        this.network = new Network(this);
+
         this.discord.onMessage(this.globalMessage.bind(this));
 
         this.onConnection(this.network.handleConnection.bind(this.network));
 
         log.info('******************************************');
+
+        this.terraWorld = new TerraWorld(this);
 
         this.tick();
     }
