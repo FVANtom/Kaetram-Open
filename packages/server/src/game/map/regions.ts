@@ -9,6 +9,7 @@ import config from '@kaetram/common/config';
 import { Modules, Opcodes } from '@kaetram/common/network';
 import log from '@kaetram/common/util/log';
 import _ from 'lodash-es';
+import { getMapDivisionSize } from '@kaetram/common/extensions/sot/network/modules';
 
 import type { EntityDisplayInfo } from '@kaetram/common/types/entity';
 import type {
@@ -52,7 +53,7 @@ export default class Regions {
     public constructor(private map: Map) {
         this.world = map.world;
         // Division size must be evenly divisble by the map's width and height.
-        this.divisionSize = Modules.Constants.MAP_DIVISION_SIZE;
+        this.divisionSize = getMapDivisionSize();
 
         this.dynamicAreas = map.getDynamicAreas() as Dynamic;
 

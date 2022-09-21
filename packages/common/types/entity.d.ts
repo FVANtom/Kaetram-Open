@@ -4,6 +4,7 @@
  * to stand out for some reason (i.e. miniboss has a different scale).
  */
 
+import { ConstructInfo } from '@kaetram/common/extensions/sot';
 import type { Modules } from '../network';
 import type { Enchantments } from './item';
 
@@ -53,4 +54,5 @@ export interface EntityData {
     hitType?: Modules.Hits;
 
     displayInfo?: EntityDisplayInfo;
+    constructInfo?: ConstructInfo;
 }

@@ -17,7 +17,7 @@ export default class Socket {
 
     public constructor(private game: Game) {
         this.config = game.app.config;
-        this.messages = new Messages(game.app);
+        this.messages = new Messages(game.app, game);
     }
 
     /**
@@ -114,6 +114,8 @@ export default class Socket {
         this.listening = true;
 
         log.info('Connection established...');
+
+        this.game.terraGame.connect();
 
         this.game.app.updateLoader('Preparing handshake');
 

@@ -20,4 +20,5 @@ export interface SlotData {
     attackStats?: Stats;
     defenseStats?: Stats;
     bonuses?: Bonuses;
+    soulBindable?: boolean;
 }

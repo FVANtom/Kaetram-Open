@@ -115,6 +115,9 @@ export default {
         // Ensure the damage is not negative.
         if (damage < 0) damage = 0;
 
+        // For SOT we want players to do less damage than constructs
+        if (character.isPlayer()) damage /= 2;
+
         return damage;
     },
 

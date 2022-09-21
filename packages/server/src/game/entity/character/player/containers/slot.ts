@@ -6,9 +6,10 @@ import type Item from '../../../objects/item';
 import type { SlotData } from '@kaetram/common/types/slot';
 import type { Bonuses, Enchantments, Stats } from '@kaetram/common/types/item';
 
-export default class Slot {
+export default class Slot<SD extends SlotData = SlotData> {
     public edible = false;
     public equippable = false;
+    public soulBindable = false;
 
     public name = '';
     public description = '';
@@ -40,6 +41,7 @@ export default class Slot {
 
         this.edible = item.edible;
         this.equippable = item.isEquippable();
+        this.soulBindable = item.soulBindable;
 
         this.name = item.name;
         this.description = item.description;
@@ -99,6 +101,8 @@ export default class Slot {
         this.attackStats = Utils.getEmptyStats();
         this.defenseStats = Utils.getEmptyStats();
         this.bonuses = Utils.getEmptyBonuses();
+
+        this.soulBindable = false;
     }
 
     /**
@@ -128,7 +132,7 @@ export default class Slot {
      * @returns SlotData interface object.
      */
 
-    public serialize(clientInfo = false): SlotData {
+    public serialize(clientInfo = false): SD {
         // Base data that is always sent to the client.
         let data: SlotData = {
             index: this.index,
@@ -145,8 +149,9 @@ export default class Slot {
             data.attackStats = this.attackStats;
             data.defenseStats = this.defenseStats;
             data.bonuses = this.bonuses;
+            data.soulBindable = this.soulBindable;
         }
 
-        return data;
+        return <SD>data;
     }
 }

@@ -4,9 +4,10 @@ import log from '../lib/log';
 import Util from '../utils/util';
 import { onDragDrop } from '../utils/press';
 
-import { Modules, Opcodes } from '@kaetram/common/network';
+import { Opcodes, Modules } from '@kaetram/common/network';
 import _ from 'lodash-es';
 
+import type Game from '@kaetram/client/src/game';
 import type Actions from './actions';
 import type { SlotData } from '@kaetram/common/types/slot';
 import type { Bonuses, Stats } from '@kaetram/common/types/item';
@@ -14,7 +15,7 @@ import type { Bonuses, Stats } from '@kaetram/common/types/item';
 type SelectCallback = (index: number, action: Opcodes.Container, value?: number) => void;
 type BatchCallback = () => void;
 
-interface SlotElement extends HTMLElement {
+export interface SlotElement extends HTMLElement {
     edible?: boolean;
     equippable?: boolean;
 
@@ -24,6 +25,8 @@ interface SlotElement extends HTMLElement {
     attackStats?: Stats;
     defenseStats?: Stats;
     bonuses?: Bonuses;
+
+    soulBindable?: boolean;
 }
 
 export default class Inventory extends Menu {
@@ -35,7 +38,7 @@ export default class Inventory extends Menu {
     private selectCallback?: SelectCallback;
     private batchCallback?: BatchCallback;
 
-    public constructor(private actions: Actions) {
+    public constructor(private actions: Actions, private game: Game) {
         super('#inventory', undefined, '#inventory-button');
 
         this.load();
@@ -84,7 +87,9 @@ export default class Inventory extends Menu {
     private handleAction(menuAction: Modules.MenuActions): void {
         if (menuAction === Modules.MenuActions.DropMany) return this.actions.showDropDialog();
 
-        this.selectCallback?.(Util.getContainerAction(menuAction), this.selectedSlot, 1);
+        if (!this.game.terraGame.sotMenu.handleAction(this.selectedSlot, menuAction)) {
+            this.selectCallback?.(Util.getContainerAction(menuAction), this.selectedSlot, 1);
+        }
 
         this.actions.hide();
     }
@@ -173,6 +178,7 @@ export default class Inventory extends Menu {
 
         let actions: Modules.MenuActions[] = [];
 
+        if (element.soulBindable) actions.push(Modules.MenuActions.BindSoul);
         if (element.edible) actions.push(Modules.MenuActions.Eat);
         if (element.equippable) actions.push(Modules.MenuActions.Equip);
 
@@ -257,6 +263,9 @@ export default class Inventory extends Menu {
         slotElement.attackStats = slot.attackStats!;
         slotElement.defenseStats = slot.defenseStats!;
         slotElement.bonuses = slot.bonuses!;
+
+        // Add SOT attributes
+        slotElement.soulBindable = slot.soulBindable || false;
     }
 
     /**

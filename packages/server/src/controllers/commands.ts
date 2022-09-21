@@ -93,6 +93,16 @@ export default class Commands {
                 break;
             }
 
+            case 'respawn': {
+                let spawm = this.player.getSpawn(),
+                    { x } = spawm,
+                    { y } = spawm,
+                    withAnimation = parseInt(blocks.shift()!);
+
+                if (x && y) this.player.teleport(x, y, !!withAnimation);
+                return;
+            }
+
             case 'ping': {
                 this.player.ping();
                 break;

@@ -44,7 +44,7 @@ export default class MenuController {
     public menus: { [key: string]: Menu };
 
     public constructor(private game: Game) {
-        this.inventory = new Inventory(this.actions);
+        this.inventory = new Inventory(this.actions, this.game);
         this.bank = new Bank(this.inventory);
         this.store = new Store(this.inventory);
         this.profile = new Profile(game.player);
@@ -103,6 +103,11 @@ export default class MenuController {
 
     private load(): void {
         this.forEachMenu((menu: Menu) => menu.onShow(() => this.hide()));
+    }
+
+    public add(menuName: string, menuItem: Menu) {
+        this.menus[menuName] = menuItem;
+        menuItem.onShow(() => this.hide());
     }
 
     /**

@@ -8,6 +8,7 @@ import ViteLegacy from '@vitejs/plugin-legacy';
 import { ViteMinifyPlugin } from 'vite-plugin-minify';
 import { VitePWA } from 'vite-plugin-pwa';
 import { internalIpV4 } from 'internal-ip';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 let expose = ['name', 'host', 'ssl', 'serverId'] as const;
 
@@ -74,7 +75,7 @@ export default defineConfig(async ({ mode }) => {
                     display: 'fullscreen',
                     background_color: '#000000',
                     theme_color: '#000000',
-                    icons: [192, 512].map((size) => {
+                    icons: [144].map((size) => {
                         let sizes = `${size}x${size}`;
 
                         return {
@@ -95,7 +96,39 @@ export default defineConfig(async ({ mode }) => {
                 }
             }),
             ViteLegacy(),
-            ViteMinifyPlugin({ processScripts: ['application/ld+json'] })
+            ViteMinifyPlugin({ processScripts: ['application/ld+json'] }),
+            viteStaticCopy({
+                targets: [
+                    {
+                        src: './extensions/sot/public/img/tilesets/*.*',
+                        dest: './img/tilesets/'
+                    },
+                    {
+                        src: './extensions/sot/public/img/sprites/*.*',
+                        dest: './img/sprites/'
+                    },
+                    {
+                        src: './extensions/sot/public/*.*',
+                        dest: '.'
+                    },
+                    {
+                        src: './extensions/sot/public/img/icons',
+                        dest: './img'
+                    },
+                    {
+                        src: './extensions/sot/public/img/*.*',
+                        dest: './img'
+                    },
+                    {
+                        src: './extensions/sot/public/img/2/*.*',
+                        dest: './img/2'
+                    },
+                    {
+                        src: './extensions/sot/public/img/3/*.*',
+                        dest: './img/3'
+                    }
+                ]
+            })
         ],
         build: {
             sourcemap: true,
@@ -115,8 +148,19 @@ export default defineConfig(async ({ mode }) => {
                 protocol: 'ws',
                 host: ipv4!,
                 port: 5183
+            },
+            watch: {
+                ignored: ['!**/src/**'],
+                followSymlinks: true
             }
         },
-        define: { 'window.config': env }
+        define: {
+            'window.config': env,
+            'process.env': {},
+            'import.meta.env': {}
+        },
+        resolve: {
+            preserveSymlinks: true
+        }
     };
 });

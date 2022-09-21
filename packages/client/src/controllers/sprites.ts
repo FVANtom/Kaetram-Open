@@ -3,6 +3,8 @@ import Animation from '../entity/animation';
 import Sprite from '../entity/sprite';
 import log from '../lib/log';
 
+import sotSpriteData from '../../extensions/sot/data/sprites.json';
+
 import type { SpriteData } from '../entity/sprite';
 
 export default class SpritesController {
@@ -21,7 +23,9 @@ export default class SpritesController {
      */
 
     public load(): void {
-        for (let data of spriteData as SpriteData[]) {
+        let sprites = [...(spriteData as SpriteData[]), ...(sotSpriteData as SpriteData[])];
+
+        for (let data of sprites) {
             let sprite = new Sprite(data);
 
             sprite.loadSprite();

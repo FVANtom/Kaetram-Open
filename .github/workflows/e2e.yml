@@ -13,7 +13,7 @@ jobs:
               uses: actions/checkout@v3
 
             - name: Start MongoDB
-              uses: supercharge/mongodb-github-action@1.7.0
+              uses: supercharge/mongodb-github-action@1.8.0
 
             - name: Setup Node
               uses: actions/setup-node@v3
@@ -21,10 +21,26 @@ jobs:
                   node-version: 18.5.0
                   cache: 'yarn'
 
+            - name: Install stubs
+              run: chmod +x ./installSotStubs.sh && ./installSotStubs.sh
+              shell: bash
+
             - name: Run Cypress
               uses: cypress-io/github-action@v4
               with:
-                  command: yarn workspace @kaetram/e2e test:run:record
-              env:
-                  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  command: yarn workspace @kaetram/e2e test:run
+
+            - name: Notify discord
+              if: always()
+              uses: sarisia/actions-status-discord@v1
+              with:
+                  webhook: ${{ secrets.DISCORD_WEBHOOK }}
+                  nodetail: true
+                  nofail: false
+                  title: New code was added to the public SOT repository
+                  description: |
+                      Test status
+                      `${{ job.status }}`
+
+                      Details
+                      Click [here](https://github.com/FVANtom/SpiritsOfTerra-Open/actions/workflows/e2e.yml) to go to the github workflow logs.

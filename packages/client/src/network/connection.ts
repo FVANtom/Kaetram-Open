@@ -932,6 +932,7 @@ export default class Connection {
             this.game.player.despawn();
 
             this.app.body.classList.add('death');
+            this.app.respawn.classList.add('active-pointer-events');
         });
     }
 
@@ -1301,32 +1302,35 @@ export default class Connection {
      */
 
     private handleMinigame(opcode: Opcodes.Minigame, info: MinigamePacket): void {
-        let { minigame, player } = this.game;
+        console.log(`handleMinigame packet received: ${JSON.stringify(info)}`);
+        if (info) {
+            let {minigame, player} = this.game;
 
-        minigame.type = opcode;
-        minigame.started = !!info.started;
+            minigame.type = opcode;
+            minigame.started = !!info.started;
 
-        if (info.countdown) minigame.countdown = info.countdown;
+            if (info.countdown) minigame.countdown = info.countdown;
 
-        switch (info.action) {
-            // Game starting packet.
-            case Opcodes.TeamWar.Score: {
-                if (!isNaN(info.redTeamKills!) && !isNaN(info.blueTeamKills!))
-                    minigame.setScore(info.redTeamKills!, info.blueTeamKills!);
+            switch (info.action) {
+                // Game starting packet.
+                case Opcodes.TeamWar.Score: {
+                    if (!isNaN(info.redTeamKills!) && !isNaN(info.blueTeamKills!))
+                        minigame.setScore(info.redTeamKills!, info.blueTeamKills!);
 
-                return minigame.setStatus('ingame');
-            }
+                    return minigame.setStatus('ingame');
+                }
 
-            // Entering lobby packets
-            case Opcodes.TeamWar.End:
-            case Opcodes.TeamWar.Lobby: {
-                player.nameColour = '';
-                return minigame.setStatus('lobby');
-            }
+                // Entering lobby packets
+                case Opcodes.TeamWar.End:
+                case Opcodes.TeamWar.Lobby: {
+                    player.nameColour = '';
+                    return minigame.setStatus('lobby');
+                }
 
-            // Exiting the entire minigame
-            case Opcodes.TeamWar.Exit: {
-                return minigame.reset();
+                // Exiting the entire minigame
+                case Opcodes.TeamWar.Exit: {
+                    return minigame.reset();
+                }
             }
         }
     }

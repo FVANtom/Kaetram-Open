@@ -1,6 +1,5 @@
-import QuestIndex from './quest/impl';
-
-import quests from '../../../../../data/quests.json';
+import QuestIndex from '../../../../../extensions/sot/src/game/entity/character/player/quest/impl';
+import quests from '../../../../../extensions/sot/data/quests.json';
 import { Quest as QuestPacket } from '../../../../network/packets';
 
 import _ from 'lodash-es';

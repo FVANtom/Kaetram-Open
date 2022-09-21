@@ -4,12 +4,14 @@ import Collection from '@kaetram/server/src/game/entity/collection/collection';
 
 import type World from '@kaetram/server/src/game/world';
 
+import sotMobData from '../../../../extensions/sot/data/mobs.json';
+
 /**
  * A class for collections of entities of a certain type in the game.
  */
 export default class MobCollection extends Collection<Mob> {
     public override tryLoad(position: Position, key: string): Mob | undefined {
-        if (!(key in mobData)) return undefined;
+        if (!(key in sotMobData) && !(key in mobData)) return undefined;
         return this.spawn({ world: this.world, key, x: position.x, y: position.y });
     }
 

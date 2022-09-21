@@ -18,7 +18,8 @@ export enum PacketType {
 export enum ContainerType {
     Bank,
     Inventory,
-    Trade
+    Trade,
+    Spirits
 }
 
 export enum Orientation {
@@ -35,7 +36,8 @@ export enum EntityType {
     Mob,
     Chest,
     Projectile,
-    Object
+    Object,
+    Construct
 }
 
 export enum AbilityType {
@@ -78,7 +80,10 @@ export enum MenuActions {
     Potion = 'potion',
     Follow = 'follow',
     Examine = 'examine',
-    AddFriend = 'addfriend'
+    AddFriend = 'addfriend',
+    BindSoul = 'bind-soul',
+    EditSpiritCore = 'edit',
+    ManifestSpiritCore = 'manifest'
 }
 
 export enum InteractActions {}
@@ -440,10 +445,11 @@ export enum ItemDefaults {
 // Defaults that apply specifically to mobs
 export enum MobDefaults {
     EXPERIENCE = 1, // Default 1 exp granted if not specified
-    AGGRO_RANGE = 2, // Default aggro range of 2 tiles
+    AGGRO_RANGE = 15, // Default aggro range of 2 tiles
     RESPAWN_DELAY = 60_000, // 60 seconds to respawn
     ROAM_DISTANCE = 7, // 7 tiles away from spawn point
-    ROAM_FREQUENCY = 17_000, // Roam interval every 35 seconds
+    ROAM_FREQUENCY = 17_000, // Roam interval every 17 seconds
+    ROAM_RETRIES = 3, // 3 retries if the new spot is not possible
     DEFENSE_LEVEL = 1,
     ATTACK_LEVEL = 1
 }

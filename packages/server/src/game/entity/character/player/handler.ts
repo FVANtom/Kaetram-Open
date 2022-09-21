@@ -137,13 +137,13 @@ export default class Handler {
 
         this.clear();
 
-        if (this.player.ready) {
-            if (config.discordEnabled)
-                this.world.discord.sendMessage(this.player.username, 'has logged out!');
+        if (
+            this.player.ready && //if (config.discordEnabled)
+            //this.world.discord.sendMessage(this.player.username, 'has logged out!');
 
-            if (config.hubEnabled)
-                this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged out!');
-        }
+            config.hubEnabled
+        )
+            this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged out!');
 
         if (this.player.inMinigame()) this.player.getMinigame()?.disconnect(this.player);
 
@@ -286,7 +286,27 @@ export default class Handler {
             this.player.notify(`The key crumbles to dust as you pass through the door.`);
         }
 
-        this.player.teleport(door.x, door.y);
+        let doorX = door.x,
+            doorY = door.y;
+        switch (door.orientation) {
+            case 'u':
+                doorY += -1;
+                this.player.setOrientation(Modules.Orientation.Up);
+                break;
+            case 'd':
+                doorY += 1;
+                this.player.setOrientation(Modules.Orientation.Down);
+                break;
+            case 'l':
+                doorX += -1;
+                this.player.setOrientation(Modules.Orientation.Left);
+                break;
+            case 'r':
+                doorX += 1;
+                this.player.setOrientation(Modules.Orientation.Right);
+                break;
+        }
+        this.player.teleport(doorX, doorY);
 
         log.debug(`[${this.player.username}] Going through door: ${door.x} - ${door.y}`);
     }
@@ -449,7 +469,7 @@ export default class Handler {
         this.player.send(
             new Container(Opcodes.Container.Batch, {
                 type: Modules.ContainerType.Inventory,
-                data: this.player.inventory.serialize(true)
+                data: this.player.inventory?.serialize(true)
             })
         );
     }
@@ -709,7 +729,7 @@ export default class Handler {
         // Checks if the mob has a active quest associated with it.
         let quest = this.player.quests.getQuestFromMob(character);
 
-        if (quest) quest.killCallback?.(character);
+        if (quest) quest.killCallback?.(character, this.player as Player);
 
         // Checks if the mob has an active achievement associated with it.
         let achievement = this.player.achievements.getAchievementFromEntity(character);
@@ -740,9 +760,11 @@ export default class Handler {
          */
 
         if (this.player.cheatScore > 15) {
-            this.player.sendToSpawn();
-
-            this.player.connection.reject('cheating');
+            // TODO see if this should be enabled again
+            log.info(`Cheat score - ${this.player.name}: ${this.player.cheatScore}`);
+            // this.player.sendToSpawn();
+            //
+            // this.player.connection.reject('cheating');
         }
 
         log.debug(`[${this.player.username}] Cheat score: ${this.player.cheatScore}`);

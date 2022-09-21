@@ -2,6 +2,7 @@
 
 import type { PlayerInfo } from '../entities/playerinfo';
 import type { PlayerInventory } from '../entities/playerinventory';
+import { SotCollectionName } from '@kaetram/e2e/cypress/e2e/extensions/sot/support/sotrepository';
 
 type CollectionName =
     | 'player_achievements'
@@ -11,7 +12,8 @@ type CollectionName =
     | 'player_inventory'
     | 'player_quests'
     | 'player_skills'
-    | 'player_statistics';
+    | 'player_statistics'
+    | SotCollectionName;
 
 /**
  * Sample usage:

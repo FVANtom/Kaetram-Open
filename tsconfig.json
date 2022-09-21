@@ -21,5 +21,9 @@
         "paths": {
             "@kaetram/*": ["*"]
         }
-    }
+    },
+    "exclude": [
+        "./packages/*/extensions/sot-stub",
+        "./packages/*/extensions/sot-stub-old"
+    ]
 }

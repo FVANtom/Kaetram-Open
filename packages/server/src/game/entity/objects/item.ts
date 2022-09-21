@@ -1,4 +1,6 @@
 import rawData from '../../../../data/items.json';
+import rawSotData from '../../../../extensions/sot/data/items.json';
+
 import Entity from '../entity';
 
 import log from '@kaetram/common/util/log';
@@ -16,12 +18,13 @@ interface RawData {
 }
 
 export default class Item extends Entity {
-    private data: ItemData;
+    public readonly data: ItemData;
 
     // Item Data
     private itemType = 'object'; // weapon, armour, pendant, etc.
     public stackable = false;
     public edible = false;
+    public soulBindable = false;
     public maxStackSize = 1; // Default max stack size.
     public plugin: Plugin | undefined;
 
@@ -86,7 +89,7 @@ export default class Item extends Entity {
     ) {
         super(Utils.createInstance(Modules.EntityType.Item), key, x, y);
 
-        this.data = (rawData as RawData)[key];
+        this.data = (rawSotData as RawData)[key] || (rawData as RawData)[key];
 
         if (!this.data) {
             log.error(`[Item] Could not find data for ${key}.`);
@@ -100,6 +103,7 @@ export default class Item extends Entity {
         this.name = this.data.name;
         this.stackable = this.data.stackable || this.stackable;
         this.edible = this.data.edible || this.edible;
+        this.soulBindable = this.data.soulBindable || this.soulBindable;
         this.maxStackSize = this.getMaxStackSize(this.data.maxStackSize);
         this.price = this.data.price || this.price;
         this.storeCount = this.data.storeCount || this.storeCount;

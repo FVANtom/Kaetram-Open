@@ -11,6 +11,7 @@ import type Item from './objects/item';
 import type Projectile from './objects/projectile';
 import type Mob from './character/mob/mob';
 
+type KillCallback = (character: Character) => void;
 type MovementCallback = (x: number, y: number) => void;
 
 /**
@@ -41,6 +42,7 @@ abstract class Entity {
 
     public recentRegions: number[] = []; // regions the entity just left
 
+    public killCallback?: KillCallback;
     public movementCallback?: MovementCallback;
 
     protected constructor(public instance = '', public key = '', x: number, y: number) {
@@ -126,6 +128,18 @@ abstract class Entity {
         return {
             instance: this.instance
         };
+    }
+
+    /**
+     * Handles experience received from killing a mob. Here we check the type of
+     * damage the player was dealing, whether or not he was using magic, ranged, or
+     * melee, and what kind of melee weapon he was using. We then add the experience
+     * to the appropriate skill.
+     * @param experience The amount of experience we are adding.
+     */
+
+    public handleExperience(experience: number): void {
+        // Stub
     }
 
     /**
@@ -219,6 +233,15 @@ abstract class Entity {
     }
 
     /**
+     * Checks whether the entity's type is a construct.
+     * @returns Whether the type is equal to the EntityType construct.
+     */
+
+    public isConstruct(): boolean {
+        return this.type === Modules.EntityType.Construct;
+    }
+
+    /**
      * Checks whether the entity's type is a NPC.
      * @returns Whether the type is equal to the EntityType NPC.
      */
@@ -290,6 +313,15 @@ abstract class Entity {
 
     public onMovement(callback: MovementCallback): void {
         this.movementCallback = callback;
+    }
+
+    /**
+     * Callback for when the current character kills another character.
+     * @param callback Contains the character object that was killed.
+     */
+
+    public onKill(callback: KillCallback): void {
+        this.killCallback = callback;
     }
 }
 

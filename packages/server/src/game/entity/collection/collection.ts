@@ -122,10 +122,19 @@ export default abstract class Collection<EntityType extends Entity> {
      * @return entity
      */
 
-    public get(username: string): Entity | undefined {
+    public get(username: string): EntityType | undefined {
         return _.find(this.entities, (entity: EntityType) => {
             return entity.username.toLowerCase() === username.toLowerCase();
         });
+    }
+
+    /**
+     * Gets an entity by instance.
+     * @return The instance of the entity we are finding.
+     */
+
+    public getViaInstance(instance: string): EntityType | undefined {
+        return this.entities[instance];
     }
 
     /**

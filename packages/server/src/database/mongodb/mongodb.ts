@@ -39,7 +39,6 @@ export default class MongoDB {
             authInsert = username && password ? `${username}:${password}@` : '',
             portInsert = port > 0 ? `:${port}` : '';
         this.connectionUrl = `${srvInsert}://${authInsert}${host}${portInsert}/${databaseName}`;
-
         // Attempt to connect to MongoDB.
         this.createConnection();
     }
@@ -137,6 +136,8 @@ export default class MongoDB {
                 player.statistics.creationTime = Date.now();
 
                 player.load(Creator.serializePlayer(player));
+
+                this.creator.save(player);
             });
         });
     }
@@ -439,6 +440,10 @@ export default class MongoDB {
         if (!this.database) log.error('No connection established for the database.');
 
         return !!this.database;
+    }
+
+    public getDatabase(): Db {
+        return this.database;
     }
 
     /**

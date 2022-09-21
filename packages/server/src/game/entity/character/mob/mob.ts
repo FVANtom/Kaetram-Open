@@ -1,6 +1,7 @@
 import MobHandler from './handler';
 
 import rawData from '../../../../../data/mobs.json';
+import sotRawData from '../../../../../extensions/sot/data/mobs.json';
 import dropTables from '../../../../../data/tables.json';
 import PluginIndex from '../../../../../data/plugins/mobs';
 import Spawns from '../../../../../data/spawns.json';
@@ -78,7 +79,7 @@ export default class Mob extends Character {
     public constructor(world: World, key: string, x: number, y: number, plugin?: boolean) {
         super(Utils.createInstance(Modules.EntityType.Mob), world, key, x, y);
 
-        let data = (rawData as RawData)[key];
+        let data = (sotRawData as RawData)[key] || (rawData as RawData)[key];
 
         if (!data) {
             log.error(`[Mob] Could not find data for ${key}.`);

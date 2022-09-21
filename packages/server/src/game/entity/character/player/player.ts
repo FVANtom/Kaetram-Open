@@ -40,6 +40,11 @@ import { PacketType } from '@kaetram/common/network/modules';
 import { Opcodes, Modules } from '@kaetram/common/network';
 import config from '@kaetram/common/config';
 import { Team } from '@kaetram/common/api/minigame';
+import {
+    getSpawnPoint,
+    getTutorialSpawnPoint
+} from '@kaetram/common/extensions/sot/network/modules';
+import Bubble from '@kaetram/server/src/network/packets/bubble';
 
 import type { EntityDisplayInfo } from '@kaetram/common/types/entity';
 import type { Bonuses, Stats } from '@kaetram/common/types/item';
@@ -61,7 +66,6 @@ import type NPC from '../../npc/npc';
 import type Item from '../../objects/item';
 import type Skill from './skill/skill';
 
-type KillCallback = (character: Character) => void;
 type NPCTalkCallback = (npc: NPC) => void;
 type DoorCallback = (door: ProcessedDoor) => void;
 type RegionCallback = (region: number) => void;
@@ -83,7 +87,7 @@ export default class Player extends Character {
     private regions: Regions = this.world.map.regions;
     private entities: Entities = this.world.entities;
 
-    public incoming: Incoming = new Incoming(this);
+    public incoming: Incoming;
 
     public bank: Bank = new Bank(Modules.Constants.BANK_SIZE);
     public inventory: Inventory = new Inventory(Modules.Constants.INVENTORY_SIZE);
@@ -98,7 +102,7 @@ export default class Player extends Character {
     public friends: Friends = new Friends(this);
     public trade: Trade = new Trade(this);
 
-    public handler: Handler = new Handler(this);
+    public handler: Handler;
 
     public ready = false; // indicates if login processed finished
     public isGuest = false;
@@ -162,7 +166,6 @@ export default class Player extends Character {
     private cameraArea: Area | undefined;
     private overlayArea: Area | undefined;
 
-    public killCallback?: KillCallback;
     public npcTalkCallback?: NPCTalkCallback;
     public doorCallback?: DoorCallback;
     public regionCallback?: RegionCallback;
@@ -172,6 +175,8 @@ export default class Player extends Character {
 
     public constructor(world: World, public database: MongoDB, public connection: Connection) {
         super(connection.id, world, '', -1, -1);
+        this.handler = new Handler(this);
+        this.incoming = new Incoming(this);
     }
 
     /**
@@ -218,6 +223,7 @@ export default class Player extends Character {
         this.loadAchievements();
         this.loadStatistics();
         this.loadAbilities();
+        this.world.terraWorld.loadSotPlayer(this.instance);
         this.intro();
 
         // equipment -> inventory/bank -> quests -> achievements -> skills -> statistics -> abilities -> intro
@@ -724,7 +730,9 @@ export default class Player extends Character {
      * @param experience The amount of experience we are adding.
      */
 
-    public handleExperience(experience: number): void {
+    public override handleExperience(experience: number): void {
+        super.handleExperience(experience);
+
         let weapon = this.equipment.getWeapon();
 
         /**
@@ -863,8 +871,23 @@ export default class Player extends Character {
         // Handle doors when the player stops on one.
         if (this.map.isDoor(x, y) && (!target || entity.isPlayer())) {
             let door = this.map.getDoor(x, y);
-
-            this.doorCallback?.(door);
+            this.send(
+                new Bubble({
+                    instance: this.instance,
+                    text: 'I feel a bit dizzy.. Like I am being pulled through a keyhole..'
+                })
+            );
+            this.setStun(true);
+            setTimeout(() => {
+                this.doorCallback?.(door);
+                this.setStun(false);
+                this.send(
+                    new Bubble({
+                        instance: this.instance,
+                        text: 'Ugh.. I hate being teleported..'
+                    })
+                );
+            }, 500);
         }
 
         // Movement has come to an end.
@@ -936,6 +959,7 @@ export default class Player extends Character {
 
         this.cameraArea = camera;
 
+        // TODO Tom: This was wrong during a rebase, fix it (or remove this if no errors)
         if (camera)
             switch (camera.type) {
                 case 'lockX': {
@@ -1202,11 +1226,11 @@ export default class Player extends Character {
 
     public getSpawn(): Position {
         if (!this.quests.isTutorialFinished())
-            return Utils.getPositionFromString(Modules.Constants.TUTORIAL_SPAWN_POINT);
+            return Utils.getPositionFromString(getTutorialSpawnPoint());
 
         if (this.inMinigame()) return this.getMinigame()?.getRespawnPoint(this.team);
 
-        return Utils.getPositionFromString(Modules.Constants.SPAWN_POINT);
+        return Utils.getPositionFromString(getSpawnPoint());
     }
 
     /**
@@ -1823,15 +1847,6 @@ export default class Player extends Character {
         if (this.dualistsMark) return this.equipment.getWeapon().attackRate - 200;
 
         return this.equipment.getWeapon().attackRate;
-    }
-
-    /**
-     * Callback for when the current character kills another character.
-     * @param callback Contains the character object that was killed.
-     */
-
-    public onKill(callback: KillCallback): void {
-        this.killCallback = callback;
     }
 
     /**

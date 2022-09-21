@@ -420,6 +420,8 @@ export default class InputController {
         // Remove player's targets prior to an action.
         this.player.removeTarget();
 
+        if (this.game.terraGame.onMove(this, position)) return;
+
         // Handle NPC interaction.
         this.entity = useSearch
             ? this.game.searchForEntityAt(position)
@@ -458,15 +460,14 @@ export default class InputController {
     public moveCursor(): void {
         if (isMobile()) return;
 
-        let position = this.getCoords();
-
-        // The entity we are currently hovering over.
-        this.entity = this.game.searchForEntityAt(position);
+        let position = this.getCoords(),
+            // The entity we are currently hovering over.
+            entity = this.game.searchForEntityAt(position);
 
         // Update the overlay with entity information.
-        this.hud.update(this.entity);
+        this.hud.update(entity);
 
-        if (!this.entity) {
+        if (!entity) {
             /**
              * Because objects aren't exactly entities, we have a special
              * case for checking if the hovering coordinates are objects.
@@ -489,7 +490,7 @@ export default class InputController {
             return;
         }
 
-        switch (this.entity.type) {
+        switch (entity.type) {
             case Modules.EntityType.Item:
             case Modules.EntityType.Chest: {
                 this.setCursor(this.cursors.loot);
@@ -671,7 +672,9 @@ export default class InputController {
      */
 
     private isTargetable(entity: Entity): boolean {
-        return this.isAttackable(entity) || entity.isNPC() || entity.isChest();
+        return (
+            this.isAttackable(entity) || entity.isNPC() || entity.isChest() || entity.isConstruct()
+        );
     }
 
     /**
@@ -680,7 +683,7 @@ export default class InputController {
      */
 
     private isAttackable(entity: Entity): boolean {
-        return entity.isMob() || (entity.isPlayer() && this.game.pvp);
+        return (entity.isMob() && !entity.isConstruct()) || (entity.isPlayer() && this.game.pvp);
     }
 
     /**

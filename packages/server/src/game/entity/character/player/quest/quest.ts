@@ -8,7 +8,7 @@ import Utils from '@kaetram/common/util/utils';
 import type { ProcessedDoor } from '@kaetram/common/types/map';
 import type { PointerData } from '@kaetram/common/types/pointer';
 import type { PopupData } from '@kaetram/common/types/popup';
-import type { QuestData, RawQuest, RawStage, StageData } from '@kaetram/common/types/quest';
+import type { DialogueItem, QuestData, RawQuest, RawStage, StageData } from '@kaetram/common/types/quest';
 import type NPC from '../../../npc/npc';
 import type Mob from '../../mob/mob';
 import type Player from '../player';
@@ -19,7 +19,7 @@ type PopupCallback = (popup: PopupData) => void;
 
 type TalkCallback = (npc: NPC, player: Player) => void;
 type DoorCallback = (quest: ProcessedDoor, player: Player) => void;
-type KillCallback = (mob: Mob) => void;
+type KillCallback = (mob: Mob, player: Player) => void;
 type ResourceCallback = (type: Modules.Skills, resourceType: string) => void;
 
 export default abstract class Quest {
@@ -102,7 +102,7 @@ export default abstract class Quest {
         //log.debug(`[${this.name}] Talking to NPC: ${npc.key} - stage: ${this.stage}.`);
 
         // Extract the dialogue for the NPC.
-        let dialogue = this.getNPCDialogue(npc, player);
+        let dialogue = this.getQuestDialogue(npc, player);
 
         if (!dialogue) return log.warning(`[${this.name}] No dialogue found for NPC: ${npc.key}.`);
 
@@ -144,9 +144,10 @@ export default abstract class Quest {
      * Handler when killing a mob. Determines
      * whether to progress or not.
      * @param mob The mob we are killing.
+     * @param player The player instance that we send actions to.
      */
 
-    private handleKill(mob: Mob): void {
+    private handleKill(mob: Mob, player: Player): void {
         log.debug(
             `[${this.name}] Killing mob: ${mob.key}, stage: ${this.stage}, subStage: ${this.subStage}.`
         );
@@ -158,7 +159,11 @@ export default abstract class Quest {
         if (this.stageData.mob.includes(mob.key)) this.progress(true);
 
         // Progress to the next stage after we reach the `mobCountRequirement`.
-        if (this.subStage >= this.stageData.mobCountRequirement) this.progress();
+        if (this.subStage >= this.stageData.mobCountRequirement)
+            if (this.hasItemToGive()) {
+                if (this.givePlayerItem(player, this.stageData.itemKey!, this.stageData.itemCount!))
+                    this.progress();
+            } else this.progress();
     }
 
     /**
@@ -192,6 +197,7 @@ export default abstract class Quest {
      * Checks the player's inventory and progresses if
      * he contains enough of the required item.
      * @param player The player we are checking inventory of.
+     * @param stageData The stage data of the quest
      */
 
     private handleItemRequirement(player: Player, stageData: StageData): void {
@@ -391,7 +397,7 @@ export default abstract class Quest {
      * @returns An array of strings containing the dialogue.
      */
 
-    private getNPCDialogue(npc: NPC, player: Player): string[] {
+    private getQuestDialogue(npc: NPC, player: Player): DialogueItem[] {
         // Iterate backwards, last reference of the NPC is the text we grab.
         for (let i = this.stage; i > -1; i--) {
             // We do not count iterations of stages above stage we are currently on.

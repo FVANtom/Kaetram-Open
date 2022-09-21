@@ -48,6 +48,7 @@ import type {
     WelcomeCallback
 } from '@kaetram/common/types/messages/outgoing';
 import type App from '../app';
+import Game from '@kaetram/client/src/game';
 
 export default class Messages {
     private messages: (() => ((...data: never[]) => void) | undefined)[] = [];
@@ -107,7 +108,7 @@ export default class Messages {
      * Please respect the order of the Packets Enum and arrange functions
      * accordingly.
      */
-    public constructor(private app: App) {
+    public constructor(private app: App, private game: Game) {
         this.messages[Packets.Handshake] = () => this.handshakeCallback;
         this.messages[Packets.Welcome] = () => this.welcomeCallback;
         this.messages[Packets.Spawn] = () => this.spawnCallback;
@@ -160,6 +161,9 @@ export default class Messages {
      */
 
     public handleData(data: [Packets, ...never[]]): void {
+        let dataCopy = JSON.parse(JSON.stringify(data));
+        if (this.game.terraGame.messages.handleData(dataCopy)) return;
+
         let packet = data.shift()!,
             message = this.messages[packet]();
 
@@ -184,6 +188,8 @@ export default class Messages {
 
     public handleUTF8(message: string): void {
         this.app.toggleLogin(false);
+
+        if (this.game.terraGame.messages.handleUTF8(message)) return;
 
         switch (message) {
             case 'full': {

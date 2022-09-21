@@ -4,7 +4,7 @@ import type { Socket } from 'socket.io';
 import type { Packets } from '@kaetram/common/network';
 import type SocketHandler from './sockethandler';
 
-type MessageCallback = (message: [Packets, never]) => void;
+type MessageCallback = (message: [Packets | number, never]) => void;
 
 export default class Connection {
     private messageCallback?: MessageCallback;

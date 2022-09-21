@@ -14,6 +14,7 @@ import { Modules } from '@kaetram/common/network';
 import type { EntityData } from '@kaetram/common/types/entity';
 import type { PlayerData } from '@kaetram/common/types/player';
 import type Entity from '../entity/entity';
+import Construct from '../../extensions/sot/src/entity/character/construct/construct';
 import type Game from '../game';
 import type SpritesController from './sprites';
 
@@ -91,10 +92,20 @@ export default class EntitiesController {
                 entity = this.createPlayer(info as PlayerData);
                 break;
             }
+
+            case Modules.EntityType.Construct: {
+                entity = Construct.createConstruct(info, this.game);
+                break;
+            }
         }
 
         // Something went wrong creating the entity.
-        if (!entity) return log.error(`Failed to create entity ${info.instance}`);
+        if (!entity)
+            return log.error(
+                `Failed to create entity ${info.instance} [${info.type.toString()},${info.name},${
+                    info.x
+                },${info.y}]`
+            );
 
         let sprite = this.game.sprites.get(entity.isItem() ? `item-${info.key}` : info.key);
 

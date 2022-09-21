@@ -75,7 +75,7 @@ export default class Handler {
             let [instance, experience] = element,
                 entity = this.world.entities.get(instance);
 
-            if (!entity?.isPlayer()) return;
+            if (!entity?.isPlayer() && !entity?.isConstruct()) return;
 
             // Kill callback is sent to the player who dealt most amount of damage.
             if (index === 0) {
