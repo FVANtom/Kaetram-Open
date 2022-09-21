@@ -197,10 +197,9 @@ web_modules/
 
 # dotenv environment variable files
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+.env.*
+!.env.defaults
+!.env.locale2e
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -447,3 +446,8 @@ $RECYCLE.BIN/
 # https://www.toptal.com/developers/gitignore/api/git,node,cypressio,linux,macos,windows,visualstudiocode,webstorm,vim,emacs
 
 tools/map/data/map.png
+
+/packages/*/extensions/sot
+/packages/*/extensions/sot-stub-old
+/packages/e2e/cypress/e2e/extensions/sot
+/packages/e2e/cypress/e2e/extensions/sot-stub-old
