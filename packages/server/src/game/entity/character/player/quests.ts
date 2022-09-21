@@ -3,7 +3,7 @@ import _ from 'lodash-es';
 import Player from './player';
 import Quest from './quest/quest';
 
-import QuestIndex from './quest/impl';
+import QuestIndex from '../../../../../extensions/sot/src/game/entity/character/player/quest/impl';
 
 import { Quest as QuestPacket } from '../../../../network/packets';
 
@@ -15,7 +15,7 @@ import { QuestData, RawQuest, SerializedQuest } from '@kaetram/common/types/ques
 // Raw quest data
 import NPC from '../../npc/npc';
 import Mob from '../mob/mob';
-import quests from '../../../../../data/quests.json';
+import quests from '../../../../../extensions/sot/data/quests.json';
 
 /**
  * Initialize all the quests on a player instance basis. The previous

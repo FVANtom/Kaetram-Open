@@ -20,3 +20,5 @@ import './commands';
 // require('./commands')
 
 import './repository';
+
+import '../e2e/extensions/sot/support/sotrepository';

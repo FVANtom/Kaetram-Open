@@ -33,6 +33,7 @@ import type NPC from '../game/entity/npc/npc';
 import type Chest from '../game/entity/objects/chest';
 import type Item from '../game/entity/objects/item';
 import type Projectile from '../game/entity/objects/projectile';
+import Bubble from '../network/packets/bubble';
 
 export default class Incoming {
     private world: World;
@@ -49,6 +50,8 @@ export default class Incoming {
         this.commands = new Commands(player);
 
         this.connection.onMessage(([packet, message]) => {
+            if (this.world.terraWorld.messages.onMessage(player, packet, message)) return;
+
             if (!Utils.validPacket(packet)) {
                 log.error(`Non-existent packet received: ${packet} data: `);
                 log.error(message);
@@ -153,7 +156,7 @@ export default class Incoming {
         this.player.handler.startUpdateInterval();
 
         this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged in!');
-        this.world.discord.sendMessage(this.player.username, 'has logged in!');
+        // this.world.discord.sendMessage(this.player.username, 'has logged in!');
 
         // TODO - cleanup
         if (
@@ -260,10 +263,28 @@ export default class Incoming {
                 if (entity?.isItem()) this.player.inventory.add(entity as Item);
 
                 if (this.world.map.isDoor(playerX!, playerY!) && !hasTarget) {
+                    this.player.send(
+                        new Bubble({
+                            instance: this.player.instance,
+                            text: 'I feel a bit dizzy.. Like I am being pulled through a keyhole..'
+                        })
+                    );
+                    this.player.setStun(true);
                     door = this.world.map.getDoor(playerX!, playerY!);
-
-                    this.player.doorCallback?.(door);
-                } else this.player.setPosition(playerX!, playerY!);
+                    setTimeout(() => {
+                        this.player.doorCallback?.(door);
+                        this.player.setStun(false);
+                        this.player.send(
+                            new Bubble({
+                                instance: this.player.instance,
+                                text: 'Ugh.. I hate being teleported..'
+                            })
+                        );
+                    }, 500);
+                } else {
+                    this.player.setPosition(playerX!, playerY!);
+                    this.player.setOrientation(orientation!);
+                }
 
                 this.player.moving = false;
                 this.player.lastMovement = Date.now();

@@ -1,13 +1,14 @@
 import Collection from '@kaetram/server/src/game/entity/collection/collection';
 import NPC from '@kaetram/server/src/game/entity/npc/npc';
 import npcData from '@kaetram/server/data/npcs.json';
+import sotNpcData from '../../../../extensions/sot/data/npcs.json';
 
 /**
  * A class for collections of entities of a certain type in the game.
  */
 export default class NpcCollection extends Collection<NPC> {
     public override tryLoad(position: Position, key: string): NPC | undefined {
-        if (!(key in npcData)) return undefined;
+        if (!(key in sotNpcData) && !(key in npcData)) return undefined;
         return this.spawn({ key, x: position.x, y: position.y });
     }
 

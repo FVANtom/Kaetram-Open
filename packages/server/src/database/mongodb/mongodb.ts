@@ -132,6 +132,8 @@ export default class MongoDB {
                 player.statistics.creationTime = Date.now();
 
                 player.load(Creator.serializePlayer(player));
+
+                this.creator.save(player);
             });
         });
     }
@@ -223,6 +225,10 @@ export default class MongoDB {
         if (!this.database) log.error('No connection established for the database.');
 
         return !!this.database;
+    }
+
+    public getDatabase(): Db {
+        return this.database;
     }
 
     /**

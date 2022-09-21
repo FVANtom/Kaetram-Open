@@ -1,4 +1,5 @@
 import { Modules, Opcodes } from '@kaetram/common/network';
+import { getMapDivisionSize } from '@kaetram/common/extensions/sot/network/modules';
 
 export let isInt = (n: number): boolean => n % 1 === 0;
 
@@ -114,6 +115,9 @@ export default {
 
     getContainerAction(menuAction: Modules.MenuActions): Opcodes.Container {
         switch (menuAction) {
+            case Modules.MenuActions.BindSoul:
+                return Opcodes.Container.BindSoul;
+
             case Modules.MenuActions.Use:
             case Modules.MenuActions.Equip:
             case Modules.MenuActions.Eat:
@@ -150,8 +154,8 @@ export default {
      */
 
     getRegion(x: number, y: number): number {
-        let regX = Math.floor(x / Modules.Constants.MAP_DIVISION_SIZE),
-            regY = Math.floor(y / Modules.Constants.MAP_DIVISION_SIZE);
+        let regX = Math.floor(x / getMapDivisionSize()),
+            regY = Math.floor(y / getMapDivisionSize());
 
         return regX + regY * this.sideLength;
     }

@@ -67,7 +67,10 @@ export default class EntityHandler {
     private sendMovement(): void {
         let { entity, game } = this;
 
-        if (entity.isMob() && (entity.hasAttackers() || entity.hasTarget()))
+        if (
+            entity.isConstruct() ||
+            (entity.isMob() && (entity.hasAttackers() || entity.hasTarget()))
+        )
             game.socket.send(Packets.Movement, {
                 opcode: Opcodes.Movement.Entity,
                 targetInstance: entity.instance,
