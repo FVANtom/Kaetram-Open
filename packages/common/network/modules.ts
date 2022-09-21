@@ -369,7 +369,7 @@ export const enum Constants {
     MAX_LEVEL = 135, // Maximum attainable level.
     INVENTORY_SIZE = 20, // Maximum inventory size
     BANK_SIZE = 69, // Maximum bank size
-    DROP_PROBABILITY = 1000, // 1 in 1000
+    DROP_PROBABILITY = 3, // 1 in 1000
     MAX_PROFESSION_LEVEL = 99, // Totally not influenced by another game lol
     HEAL_RATE = 5000, // healing every 5 seconds
     STORE_UPDATE_FREQUENCY = 20_000, // update store every 20 seconds
@@ -413,7 +413,7 @@ export enum MobDefaults {
     EXPERIENCE = 1, // Default 1 exp granted if not specified
     AGGRO_RANGE = 15, // Default aggro range of 2 tiles
     RESPAWN_DELAY = 60_000, // 60 seconds to respawn
-    ROAM_DISTANCE = 30, // 7 tiles away from spawn point
+    ROAM_DISTANCE = 7, // 7 tiles away from spawn point
     ROAM_FREQUENCY = 10_000, // Roam interval every 10 seconds
     ROAM_RETRIES = 5, // 5 retries if the new spot is not possible
     DEFENSE_LEVEL = 1,
