@@ -29,6 +29,7 @@ export interface ItemData {
     name: string;
     stackable?: boolean;
     edible?: boolean;
+    soulBindable?: boolean;
     maxStackSize?: number;
     plugin?: string;
     price?: number;
@@ -50,4 +51,5 @@ export interface ItemData {
     defenseStats?: Stats;
     undroppable?: boolean;
     respawnDelay?: number;
+    behaviours?: number[];
 }

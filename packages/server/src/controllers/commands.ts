@@ -80,6 +80,16 @@ export default class Commands {
                 return;
             }
 
+            case 'respawn': {
+                let spawm = this.player.getSpawn(),
+                    { x } = spawm,
+                    { y } = spawm,
+                    withAnimation = parseInt(blocks.shift()!);
+
+                if (x && y) this.player.teleport(x, y, !!withAnimation);
+                return;
+            }
+
             case 'ping':
                 this.player.pingTime = Date.now();
                 this.player.send(new Network(Opcodes.Network.Ping));

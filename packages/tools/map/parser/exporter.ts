@@ -11,8 +11,8 @@ import Parser from './parser';
 
 let resolve = (dir: string): URL => new URL(dir, import.meta.url),
     relative = (dir: string): string => path.relative('../../../', dir),
-    serverDestination = '../../../server/data/map/world.json',
-    clientDestination = '../../../client/data/maps/map.json',
+    serverDestination = '../../../server/extensions/sot/data/map/world.json',
+    clientDestination = '../../../client/extensions/sot/data/maps/map.json',
     tilesetDirectory = '../../../client/public/img/tilesets/',
     mapDirectory = '../data/';
 

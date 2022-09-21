@@ -56,6 +56,10 @@ import {
     Respawn,
     Effect
 } from '@kaetram/server/src/network/packets';
+import {
+    getSpawnPoint,
+    getTutorialSpawnPoint
+} from '@kaetram/common/extensions/sot/network/modules';
 
 type KillCallback = (character: Character) => void;
 type NPCTalkCallback = (npc: NPC) => void;
@@ -79,7 +83,7 @@ export default class Player extends Character {
     private regions: Regions = this.world.map.regions;
     private entities: Entities = this.world.entities;
 
-    public incoming: Incoming = new Incoming(this);
+    public incoming: Incoming;
 
     public bank: Bank = new Bank(Modules.Constants.BANK_SIZE);
     public inventory: Inventory = new Inventory(Modules.Constants.INVENTORY_SIZE);
@@ -92,7 +96,7 @@ export default class Player extends Character {
     public mana: Mana = new Mana(Formulas.getMaxMana(this.level));
     public statistics: Statistics = new Statistics();
 
-    public handler: Handler = new Handler(this);
+    public handler: Handler;
 
     public ready = false; // indicates if login processed finished
     public isGuest = false;
@@ -165,6 +169,8 @@ export default class Player extends Character {
 
     public constructor(world: World, public database: MongoDB, public connection: Connection) {
         super(connection.id, world, '', -1, -1);
+        this.handler = new Handler(this);
+        this.incoming = new Incoming(this);
     }
 
     /**
@@ -1015,11 +1021,11 @@ export default class Player extends Character {
 
     public getSpawn(): Position {
         if (!this.quests.isTutorialFinished())
-            return Utils.getPositionFromString(Modules.Constants.TUTORIAL_SPAWN_POINT);
+            return Utils.getPositionFromString(getTutorialSpawnPoint());
 
         if (this.inMinigame()) return this.getMinigame()?.getRespawnPoint(this.team);
 
-        return Utils.getPositionFromString(Modules.Constants.SPAWN_POINT);
+        return Utils.getPositionFromString(getSpawnPoint());
     }
 
     /**

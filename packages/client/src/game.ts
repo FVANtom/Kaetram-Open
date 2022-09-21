@@ -28,6 +28,8 @@ import Minigame from './renderer/minigame';
 import { agent } from './utils/detect';
 import { Packets } from '@kaetram/common/network';
 
+import TerraGame from '../extensions/sot/src/terragame';
+
 export default class Game {
     public storage: Storage;
 
@@ -48,6 +50,7 @@ export default class Game {
     public renderer: Renderer;
     public input: InputController;
 
+    public terraGame: TerraGame;
     public socket: Socket;
     public pointer: Pointer;
     public updater: Updater;
@@ -78,6 +81,7 @@ export default class Game {
         this.bubble = new BubbleController(this);
         this.menu = new MenuController(this);
         this.connection = new Connection(this);
+        this.terraGame = new TerraGame(this.app, this);
 
         app.sendStatus('Loading game');
 
@@ -125,6 +129,8 @@ export default class Game {
      */
 
     public handleDisconnection(): void {
+        this.terraGame.handleDisconnection();
+
         if (!this.app.isMenuHidden()) return;
 
         location.reload();
@@ -215,6 +221,7 @@ export default class Game {
     public respawn(): void {
         this.audio.playSound('revive');
         this.app.body.classList.remove('death');
+        this.app.respawn.classList.remove('active-pointer-events');
 
         this.socket.send(Packets.Respawn, []);
     }
@@ -230,6 +237,8 @@ export default class Game {
         this.pointer.resize();
 
         this.menu.resize();
+
+        this.terraGame.resize();
     }
 
     /**

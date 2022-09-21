@@ -13,6 +13,8 @@ export default class PlayerCollection extends Collection<Player> {
     public override onRemove(entity: Player): void {
         if (entity.ready) entity.save();
 
+        this.world.terraWorld.handleDisconnection(entity);
+
         this.world.network.deletePacketQueue(entity);
     }
 }

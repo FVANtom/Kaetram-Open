@@ -44,7 +44,7 @@ export default class App {
     private cancelWorlds: HTMLButtonElement = document.querySelector('#cancel-worlds')!;
     private continueWorlds: HTMLButtonElement = document.querySelector('#continue-worlds')!;
 
-    private respawn: HTMLButtonElement = document.querySelector('#respawn')!;
+    public respawn: HTMLButtonElement = document.querySelector('#respawn')!;
 
     private rememberMe: HTMLInputElement = document.querySelector('#remember-me input')!;
     private guest: HTMLInputElement = document.querySelector('#guest input')!;

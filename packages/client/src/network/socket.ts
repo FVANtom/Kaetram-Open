@@ -113,6 +113,8 @@ export default class Socket {
 
         log.info('Connection established...');
 
+        this.game.terraGame.connect();
+
         this.game.app.updateLoader('Preparing handshake');
 
         this.connection.emit('client', {

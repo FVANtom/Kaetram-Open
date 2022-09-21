@@ -1,5 +1,8 @@
 import { Constants } from '@kaetram/common/network/modules';
+import { PlayerInfo } from '@kaetram/e2e/cypress/entities/playerinfo';
+import defaultPlayerInfo from '@kaetram/e2e/cypress/fixtures/playerinfo.default.json';
 import { buildPlayerInfo } from '@kaetram/e2e/cypress/fixtures/builders/playerinfo.builder';
+import { getSpawnPoint } from '@kaetram/common/extensions/sot/network/modules';
 
 export default abstract class WorldContext {
     public USERNAME = `fvantom_${Math.floor(Math.random() * 10_000_000) + 1}`;
@@ -36,7 +39,7 @@ export default abstract class WorldContext {
     }
 
     injectDefaultPlayers() {
-        let [x, y] = Constants.SPAWN_POINT?.split(',') || [0, 0],
+        let [x, y] = getSpawnPoint()?.split(',') || [0, 0],
             playerInfo = buildPlayerInfo(this.USERNAME, {
                 x: +x,
                 y: +y

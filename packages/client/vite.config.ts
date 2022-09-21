@@ -5,6 +5,7 @@ import config, { type Config } from '../common/config';
 import { VitePWA as pwa } from 'vite-plugin-pwa';
 import legacy from '@vitejs/plugin-legacy';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import { name, description } from '../../package.json';
 
@@ -69,7 +70,7 @@ export default defineConfig(({ mode }) => {
                     display: 'fullscreen',
                     background_color: '#000000',
                     theme_color: '#000000',
-                    icons: [192, 512].map((size) => {
+                    icons: [144].map((size) => {
                         let sizes = `${size}x${size}`;
 
                         return {
@@ -92,13 +93,58 @@ export default defineConfig(({ mode }) => {
             legacy(),
             createHtmlPlugin({
                 minify: isProduction && { processScripts: ['application/ld+json'] }
+            }),
+            viteStaticCopy({
+                targets: [
+                    {
+                        src: './extensions/sot/public/img/tilesets/*.*',
+                        dest: './img/tilesets/'
+                    },
+                    {
+                        src: './extensions/sot/public/img/sprites/*.*',
+                        dest: './img/sprites/'
+                    },
+                    {
+                        src: './extensions/sot/public/*.*',
+                        dest: '.'
+                    },
+                    {
+                        src: './extensions/sot/public/img/icons',
+                        dest: './img'
+                    },
+                    {
+                        src: './extensions/sot/public/img/*.*',
+                        dest: './img'
+                    },
+                    {
+                        src: './extensions/sot/public/img/2/*.*',
+                        dest: './img/2'
+                    },
+                    {
+                        src: './extensions/sot/public/img/3/*.*',
+                        dest: './img/3'
+                    }
+                ]
             })
         ],
         build: {
             sourcemap: true,
             chunkSizeWarningLimit: 4e3
         },
-        server: { port: 9000 },
-        define: { 'window.config': env }
+        server: {
+            port: 9000,
+            watch: {
+                ignored: ['!**/src/**'],
+                followSymlinks: true
+            }
+        },
+        define: {
+            'window.config': env,
+            'process.env': {},
+            'import.meta.env': {}
+        },
+        resolve: {
+            preserveSymlinks: true
+        }
     };
 });

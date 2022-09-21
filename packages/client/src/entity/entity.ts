@@ -336,6 +336,14 @@ export default abstract class Entity {
     }
 
     /**
+     * @returns Whether or not the entity is a construct type.
+     */
+
+    public isConstruct(): boolean {
+        return this.type === Modules.EntityType.Construct;
+    }
+
+    /**
      * @returns Whether or not the entity is an NPC type.
      */
 

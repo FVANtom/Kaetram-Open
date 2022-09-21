@@ -4,7 +4,7 @@ import type { Packets } from '@kaetram/common/network';
 import type SocketHandler from './sockethandler';
 import type { AnySocket, SocketType } from './websocket';
 
-type MessageCallback = (message: [Packets, never]) => void;
+type MessageCallback = (message: [Packets | number, never]) => void;
 
 export default class Connection {
     private messageCallback?: MessageCallback;

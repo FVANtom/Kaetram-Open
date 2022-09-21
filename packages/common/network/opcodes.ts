@@ -53,7 +53,8 @@ export enum Container {
     Add,
     Remove,
     Select,
-    Swap
+    Swap,
+    BindSoul
 }
 
 export enum Ability {

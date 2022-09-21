@@ -30,5 +30,6 @@ export default defineConfig({
         specPattern: '**/*.feature',
         watchForFileChanges: true,
         setupNodeEvents
-    }
+    },
+    projectId: 'o7j1zq'
 });

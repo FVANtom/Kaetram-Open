@@ -28,6 +28,9 @@ import type MongoDB from '../database/mongodb/mongodb';
 import type Connection from '../network/connection';
 import type SocketHandler from '../network/sockethandler';
 import type Player from './entity/character/player/player';
+import Minigames from './minigames/minigames';
+import Globals from './globals/globals';
+import TerraWorld from '../../extensions/sot/src/game/terraworld';
 
 export interface PacketData {
     packet: Packet;
@@ -47,7 +50,7 @@ export default class World {
     public warps: Warps = new Warps(this);
     public globals: Globals = new Globals(this);
     public entities: Entities = new Entities(this);
-    public network: Network = new Network(this);
+    public network: Network;
     public minigames: Minigames = new Minigames(this);
     public enchanter: Enchanter = new Enchanter(this);
 
@@ -57,12 +60,18 @@ export default class World {
 
     public connectionCallback?: ConnectionCallback;
 
+    public terraWorld: TerraWorld;
+
     public constructor(public socketHandler: SocketHandler, public database: MongoDB) {
+        this.network = new Network(this);
+
         this.discord.onMessage(this.globalMessage.bind(this));
 
         this.onConnection(this.network.handleConnection.bind(this.network));
 
         log.info('******************************************');
+
+        this.terraWorld = new TerraWorld(this);
 
         this.tick();
     }
