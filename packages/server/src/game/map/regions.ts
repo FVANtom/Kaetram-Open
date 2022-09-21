@@ -16,6 +16,7 @@ import { RegionData, RegionTileData } from '@kaetram/common/types/region';
 import { Tile } from '@kaetram/common/types/map';
 import { EntityDisplayInfo } from '@kaetram/common/types/entity';
 import Resource from '../globals/impl/resource';
+import { getMapDivisionSize } from '@kaetram/common/extensions/sot/network/modules';
 
 /**
  * Class responsible for chunking up the map.
@@ -43,7 +44,7 @@ export default class Regions {
     public constructor(private map: Map) {
         this.world = map.world;
         // Division size must be evenly divisble by the map's width and height.
-        this.divisionSize = Modules.Constants.MAP_DIVISION_SIZE;
+        this.divisionSize = getMapDivisionSize();
 
         this.dynamicAreas = map.getDynamicAreas() as Dynamic;
 

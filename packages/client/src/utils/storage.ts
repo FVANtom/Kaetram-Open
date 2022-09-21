@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { Modules } from '@kaetram/common/network';
 import { RegionData, RegionTileData } from '@kaetram/common/types/region';
 import { CursorTiles } from '../map/map';

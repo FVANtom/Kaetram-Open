@@ -1,61 +1,46 @@
-# Kaetram
+# Spirits of Terra
 
-[![Version](https://img.shields.io/github/package-json/v/Kaetram/Kaetram-Open)](https://github.com/Kaetram/Kaetram-Open/releases/latest 'Version')
-[![MPL-2.0 License](https://img.shields.io/github/license/Kaetram/Kaetram-Open)][license]
+[![Version](https://img.shields.io/github/package-json/v/FVANtom/SpiritsOfTerra-Open)](https://github.com/FVANtom/SpiritsOfTerra-Open/releases/latest 'Version')
+[![MPL-2.0 License](https://img.shields.io/github/license/FVANtom/SpiritsOfTerra-Open)][license]
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fkaetram.com&style=flat)](https://kaetram.com 'Website')
-[![Workflow Status](https://img.shields.io/github/workflow/status/Kaetram/Kaetram-Open/Kaetram-Open%20CI)](https://github.com/Kaetram/Kaetram-Open/actions 'Workflow Status')
-[![Open Issues](https://img.shields.io/github/issues/Kaetram/Kaetram-Open)][issues]
+[![Workflow Status](https://img.shields.io/github/workflow/status/FVANtom/SpiritsOfTerra-Open/Kaetram-Open%20CI)](https://github.com/FVANtom/SpiritsOfTerra-Open/actions 'Workflow Status')
+[![Open Issues](https://img.shields.io/github/issues/FVANtom/SpiritsOfTerra-Open)][issues]
 
-[![Watch](https://img.shields.io/github/watchers/Kaetram/Kaetram-Open?style=social&icon=github)](https://github.com/Kaetram/Kaetram-Open/subscription 'Watch')
-[![Stars](https://img.shields.io/github/stars/Kaetram/Kaetram-Open?style=social&icon=github)](https://github.com/Kaetram/Kaetram-Open/stargazers 'Stars')
-[![Fork](https://img.shields.io/github/forks/Kaetram/Kaetram-Open?style=social&icon=github)](https://github.com/Kaetram/Kaetram-Open/fork 'Fork')
-[![Discord](https://img.shields.io/discord/583033499741847574?logo=discord&color=5865f2&style=flat)][discord]
-[![YouTube](https://img.shields.io/badge/YouTube-white?logo=youtube&logoColor=f00)](https://www.youtube.com/channel/UC0atP4sQbb4LJd6y4jijOHg 'YouTube')
-[![Twitter](https://img.shields.io/twitter/follow/kaetramofficial?style=social)](https://twitter.com/kaetramofficial 'Twitter')
-[![Reddit](https://img.shields.io/reddit/subreddit-subscribers/kaetram?style=social)](https://reddit.com/r/kaetram 'Reddit')
+[![Watch](https://img.shields.io/github/watchers/FVANtom/SpiritsOfTerra-Open?style=social&icon=github)](https://github.com/FVANtom/SpiritsOfTerra-Open/subscription 'Watch')
+[![Stars](https://img.shields.io/github/stars/FVANtom/SpiritsOfTerra-Open?style=social&icon=github)](https://github.com/FVANtom/SpiritsOfTerra-Open/stargazers 'Stars')
+[![Fork](https://img.shields.io/github/forks/FVANtom/SpiritsOfTerra-Open?style=social&icon=github)](https://github.com/FVANtom/SpiritsOfTerra-Open/fork 'Fork')
+[![Discord](https://img.shields.io/discord/630113679454765056?logo=discord&color=7289da&style=flat)][discord]
 
-Kaetram is an open-source 2D MMORPG that expands on the original idea created by Little Workshop's BrowserQuest (BQ).
-We aim to provide a collaborative gaming experience as well as a game-engine for those interested in creating their
-own version. The game is still in early development stages and all help, suggestions, and bug reports are welcome.
-All of the assets are licensed under CC-BY-SA3.0 and we aim to hold onto the original BQ assets as well as expand
-upon them. The entire code-base has been re-written from scratch, optimized, and documented. Please see the GitHub
-wiki for information regarding development. Kaetram first started development in 2015 under the name of 
-Tap Tap Adventure (TTA). In 2017, Kaetram was started as a complete re-write of the code which was formerly BQ-based.
+This repo contains the open source part of the Spirits of Terra (SOT) game project.
 
-Live Version &ndash; <https://kaetram.com>
+Live Version &ndash; <https://spiritsofterra.com>
 
-Join us on Discord &ndash; <https://discord.gg/MmbGAaw>
+Join us on Discord &ndash; <https://discord.gg/E8M5gPC>
 
-![Demo 1](https://i.imgur.com/slnzrZB.png 'Demo 1')
+## Backstory
 
-![Demo 2](https://i.imgur.com/jS5d3oq.png 'Demo 2')
+The world of Terra died.. Years of pollution and neglect killing it slowly. Its population fleeing, until nothing was left. Or so we thought..
 
-![Demo 3](https://i.imgur.com/cZTFqnd.png 'Demo 3')
+Something stirs.. a new wind blows.. the spirits are awakening, bringing with them new life..
 
-## Technologies
+But Terra still needs help. The spirits need guidance. They need you!
+Answer their call and bind your soul with them to embark on the greatest quest of all.
 
-BQ was initially written as an HTML5 experiment showcasing the capabilities of web technologies
-back in 2012. Kaetram builds on top of the idea and uses modern standards to help facilitate
-readability, performance, and compatibility. Some of the many features are as follows:
+Save the world! Restore life!
 
-- Multiplayer using [Socket.IO](https://socket.io).
-- Enhanced rendering engine (includes dynamic lighting, overlays, animated tiles).
-- Region/chunking system (client caches and saves data from the server as needed).
-    - Dynamic tiles (tiles that change depending on player's progress in achievements/quests/etc).
-    - Global objects (tiles such as trees (and more in the future) that the player can interact with).
-- Quest and achievement system.
-- Minigame system for special in-game events.
-- Plugin-based mob behaviour (used for special mobs such as bosses).
-- Plugin-based item interaction
-- RESTful API for cross-server communication
-- Discord server integration (in-game and discord server can communicate with eachother).
-- Cross-server private messaging and interactions.
-- Enhanced map parsing w/ support for compressed tilemaps.
-- Yarn v3 with workspaces for monorepo packaging.
-- And much more!
+## The spirit of collaboration
+
+Spirits of Terra (SOT) is based on the open-source Kaetram game engine.
+In the same spirit (pun intended) we will also create a big portion of our project with the same open-source license.
+
+Partly because we strive to form a symbiotic relationship with the Kaetram project so we can share updates and fixes both ways.
+And partly to allow members of our community to help build the game.
+
+Join us on [Discord](https://discord.gg/E8M5gPC) for more information about helping out with development.
+
+Consider supporting the Kaetram project. Without them, we would not exist. More information can be found inside their repo https://github.com/Kaetram/Kaetram-Open
 
 ## Get Started
-
 ### Prerequisites
 
 You must first [install Node.js](https://nodejs.org/en/download) to run the project, and
@@ -158,104 +143,26 @@ test you want to run in a UI, use
 ```console
 yarn test:open
 ```
+## Ideas and wishes
 
-## Features
+### In-game world editor
 
-### Regions
+A world editor which is available to every player and with which players can submit suggestions for changes to the world. Those suggested changes will be vetted and approved by a team of moderators.
+Instead of building separate admin tools for this, we would like to have it as an integral part of the gameplay.
 
-The region system works by segmenting the map into smaller chunks that are then sent to the client. The client caches
-the map data and stores it for quicker loading in the local storage. When a new map version is present, the client
-purges the cache and starts the process again. The region system is split into static tiles and dynamic tiles. Static
-tiles do not undergo a change and are part of the map permanently. Dynamic tiles change depending on conditions such
-as a player's achievement/quest progress, or, in the case of trees, depending on whether the tree has been cut or not.
-In the future we plan to use this region system to create instanced versions of areas, for example running multiple minigame
-instances at the same time.
+## General notes
 
-Video example showcasing region system using an exaggerated example:
-[![Kaetram Region System](https://img.youtube.com/vi/pt_CEgjfORE/0.jpg)](https://www.youtube.com/watch?v=pt_CEgjfORE)
+While it should be possible to build and run this project on Windows,
+this is not actively maintained at the moment and is a lower priority.
+If you have any info about this, feel free to share it.
 
-### Tilemap
-
-Kaetram uses [Tiled Map Editor](https://www.mapeditor.org/) to create and modify the map. Our [map parsing](#map-parsing) tool
-is used to export a condesed version of the map data. The server receives the bulk of the information and uses it to calculate
-collisions, tile data information, and areas (pvp, music, etc). The client stores minimal data such as tile 'z-index' and animations.
-
-### Map Parsing
-
-Once finished modifying your map in [`packages/tools/map/data/`](packages/tools/map/data/), you can
-parse the map data by executing `yarn exportmap` inside the [`packages/tools/`](packages/tools/)
-directory.
-
-Example command:
-
-```console
-yarn exportmap ./data/map.json
-```
-
-To build the current game map, you can run
-
-```console
-yarn map
-```
-
-### Kaetram Hub
-
-There is also support for a hub server. This can help connect servers across one another, allowing
-players to interact with their friends across them in a variety of ways (private messaging and
-guilds). Furthermore, the hub serves as a gateway for determining what server to place players in.
-If a server is full, it simply returns another server that has room for the player.
-
-To enable using the hub server, see [Configuration](#configuration), and set these values to `true`.
-
-```sh
-API_ENABLED=true
-HUB_ENABLED=true
-```
-
-## Roadmap
-
-Here we have [The Roadmap Project Board](https://github.com/Kaetram/Kaetram-Open/projects/1). This
-is the main board of the Kaetram-Open project. A kind of Kanban tasks board for tracking and
-presenting the progress to the community. Here we plan, prioritize and track our work.
-
-See also the [open issues][issues] for a list of proposed features (and known issues).
-
-### TODO
-
-- Finish adding content to the map (achievements, quests, activities, etc.)
-- Split the current armour and sword system into more parts (helmet, chest, legs, boots, shield, etc.)
-- Add player trading abilities.
-- Add special abilities and enchantments to weapons/armours.
-- Add player friend list
-- Enhance the damage/defense combat formulas.
-
-## Donations
-
-### Sponsor
-
-Patreon &ndash; <https://www.patreon.com/kaetram>
-
-Open Collective &ndash; <https://opencollective.com/kaetram>
-
-### Crypto
-
-`BTC` &ndash; `bc1qeh0tdlkuc5q82j2qk9h3sqmwe6uy75qpjtc0dv`
-
-`LTC` &ndash; `MMRo7dfAi2T8rJrx7m3DmzhsgHRC7XJ83f`
-
-`ETH` &ndash; `0x4c6de7175f789DAf0f531477753B07402EEfedaC`
-
-`BCH` &ndash; `bitcoincash:qzx6uqunqj4mtv74jng97pea0mfcl4nmyqsew92enu`
-
-## License & Commission
-
-For all inquiries about purchasing a different license or commission work, please contact **@Keros**
-on [Discord][discord].
+## License info
 
 This project is distributed under the
 **[Mozilla Public License Version 2.0](https://choosealicense.com/licenses/mpl-2.0/)**. See
 [`LICENSE`][license] for more information.
 
 [license]: LICENSE 'Project License'
-[issues]: https://github.com/Kaetram/Kaetram-Open/issues 'Open Issues'
-[discord]: https://discord.gg/MmbGAaw 'Join Discord'
+[issues]: https://github.com/FVANtom/Kaetram-Open/issues 'Open Issues'
+[discord]: https://discord.gg/E8M5gPC 'Join Discord of TerraNovita'
+[discord]: https://discord.gg/MmbGAaw 'Join Discord of Kaetram'

@@ -3,6 +3,7 @@ import Item from '@kaetram/server/src/game/entity/objects/item';
 import { Blink } from '@kaetram/server/src/network/packets';
 import { Modules } from '@kaetram/common/network';
 import itemData from '@kaetram/server/data/items.json';
+import sotItemData from '@kaetram/server/extensions/sot/data/items.json';
 import { Enchantments } from '@kaetram/common/types/item';
 
 /**
@@ -10,7 +11,7 @@ import { Enchantments } from '@kaetram/common/types/item';
  */
 export default class ItemCollection extends Collection<Item> {
     public override tryLoad(position: Position, key: string): Item | undefined {
-        if (!(key in itemData)) return undefined;
+        if (!(key in sotItemData) && !(key in itemData)) return undefined;
         return this.spawn({
             key,
             x: position.x,

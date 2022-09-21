@@ -5,6 +5,7 @@
  */
 
 import { Modules } from '../network';
+import { ConstructInfo } from '@kaetram/common/extensions/sot';
 import { Enchantments } from './item';
 
 export interface EntityDisplayInfo {
@@ -53,4 +54,5 @@ export interface EntityData {
     hitType?: Modules.Hits;
 
     displayInfo?: EntityDisplayInfo;
+    constructInfo?: ConstructInfo;
 }

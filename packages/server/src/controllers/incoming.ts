@@ -33,6 +33,7 @@ import type Entity from '../game/entity/entity';
 import type NPC from '../game/entity/npc/npc';
 import type Chest from '../game/entity/objects/chest';
 import type Item from '../game/entity/objects/item';
+import Bubble from '../network/packets/bubble';
 
 export default class Incoming {
     private world: World;
@@ -49,6 +50,8 @@ export default class Incoming {
         this.commands = new Commands(player);
 
         this.connection.onMessage(([packet, message]) => {
+            if (this.world.terraWorld.messages.onMessage(player, packet, message)) return;
+
             if (!Utils.validPacket(packet)) {
                 log.error(`Non-existent packet received: ${packet} data: `);
                 log.error(message);
@@ -158,7 +161,7 @@ export default class Incoming {
         this.player.updateExperience();
 
         this.world.api.sendChat(Utils.formatName(this.player.username), 'has logged in!');
-        this.world.discord.sendMessage(this.player.username, 'has logged in!');
+        // this.world.discord.sendMessage(this.player.username, 'has logged in!');
 
         if (this.player.isDead()) this.player.deathCallback?.();
     }

@@ -68,6 +68,8 @@ export default class Network {
 
         this.createPacketQueue(player);
 
+        this.world.terraWorld.handleConnection(connection, player);
+
         this.send(player, new Handshake());
     }
 

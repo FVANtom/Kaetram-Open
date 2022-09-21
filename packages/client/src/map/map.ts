@@ -1,14 +1,14 @@
-import { Modules } from '@kaetram/common/network';
 import _ from 'lodash-es';
 import Utils from '../utils/util';
 
 import log from '../lib/log';
-import mapData from '../../data/maps/map.json';
+import mapData from '../../extensions/sot/data/maps/map.json';
 
 import type Game from '../game';
 import { isInt } from '../utils/util';
 import { ProcessedAnimation } from '@kaetram/common/types/map';
 import { RegionData, RegionTile, RegionTileData } from './../../../common/types/region';
+import { getMapDivisionSize } from '@kaetram/common/extensions/sot/network/modules';
 
 export type CursorTiles = { [tileId: number]: string };
 
@@ -69,7 +69,7 @@ export default class Map {
 
         // Store tile size globally into the utils.
         Utils.tileSize = this.tileSize;
-        Utils.sideLength = this.width / Modules.Constants.MAP_DIVISION_SIZE;
+        Utils.sideLength = this.width / getMapDivisionSize();
 
         let worker = new Worker(new URL('mapworker.ts', import.meta.url), { type: 'classic' });
 

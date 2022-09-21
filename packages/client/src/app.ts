@@ -37,7 +37,7 @@ export default class App {
     private registerButton: HTMLButtonElement = document.querySelector('#new-account')!;
     private cancelButton: HTMLButtonElement = document.querySelector('#cancel-button')!;
 
-    private respawn: HTMLButtonElement = document.querySelector('#respawn')!;
+    public respawn: HTMLButtonElement = document.querySelector('#respawn')!;
 
     private rememberMe: HTMLInputElement = document.querySelector('#remember-me input')!;
     private guest: HTMLInputElement = document.querySelector('#guest input')!;
@@ -88,7 +88,7 @@ export default class App {
 
         this.about.addEventListener('click', () => this.openScroll('about'));
         this.credits.addEventListener('click', () => this.openScroll('credits'));
-        this.discord.addEventListener('click', () => window.open('https://discord.gg/MmbGAaw'));
+        this.discord.addEventListener('click', () => window.open('https://discord.gg/E8M5gPC'));
 
         this.respawn.addEventListener('click', () => this.respawnCallback?.());
 
