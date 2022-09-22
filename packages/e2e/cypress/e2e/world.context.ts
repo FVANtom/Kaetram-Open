@@ -56,6 +56,8 @@ export default abstract class WorldContext {
         cy.removePlayerFromCollection('player_inventory', this.USERNAME);
         cy.removePlayerFromCollection('player_quests', this.USERNAME);
         cy.removePlayerFromCollection('player_skills', this.USERNAME);
+        cy.removePlayerFromCollection('player_sotinfo', this.USERNAME);
+        cy.removePlayerFromCollection('player_spirits', this.USERNAME);
         cy.removePlayerFromCollection('player_statistics', this.USERNAME);
     }
 }
