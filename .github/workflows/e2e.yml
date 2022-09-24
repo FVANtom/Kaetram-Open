@@ -40,7 +40,7 @@ jobs:
                   title: New code was added to the public SOT repository
                   description: |
                       Test status
-                      `[${{ job.status }}]`
+                      `${{ job.status }}`
 
                       Details
                       Click [here](https://github.com/FVANtom/SpiritsOfTerra-Open/actions/workflows/e2e.yml) to go to the github workflow logs.
