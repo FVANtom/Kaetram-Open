@@ -49,6 +49,8 @@ export default class Incoming {
         this.commands = new Commands(player);
 
         this.connection.onMessage(([packet, message]) => {
+            player.refreshTimeout();
+
             if (this.world.terraWorld.messages.onMessage(player, packet, message)) return;
 
             if (!Utils.validPacket(packet)) {
@@ -57,8 +59,6 @@ export default class Incoming {
 
                 return;
             }
-
-            player.refreshTimeout();
 
             // Prevent server from crashing due to a packet malfunction.
             try {
