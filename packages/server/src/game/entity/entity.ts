@@ -210,6 +210,15 @@ abstract class Entity {
     }
 
     /**
+     * Checks whether the entity's type is a construct.
+     * @returns Whether the type is equal to the EntityType construct.
+     */
+
+    public isConstruct(): boolean {
+        return this.type === Modules.EntityType.Construct;
+    }
+
+    /**
      * Checks whether the entity's type is a NPC.
      * @returns Whether the type is equal to the EntityType NPC.
      */
