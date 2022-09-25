@@ -96,6 +96,9 @@ export default {
 
         if (isNaN(damage) || !damage || damage < 0) damage = 0;
 
+        // For SOT we want players to do less damage than constructs
+        if (attacker.isPlayer()) damage /= 2;
+
         return damage;
     },
 
