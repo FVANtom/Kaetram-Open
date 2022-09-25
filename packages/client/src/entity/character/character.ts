@@ -181,6 +181,8 @@ export default class Character extends Entity {
     public despawn(): void {
         this.hitPoints = 0;
         this.dead = true;
+        this.forget();
+        this.removeTarget();
         this.stop();
 
         this.orientation = Modules.Orientation.Down;
