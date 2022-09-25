@@ -958,7 +958,7 @@ export default class Renderer {
                 if (entity.hasMedal()) this.drawMedal(entity.getMedalKey(), x, nameY);
             }
 
-            if (this.drawLevels && (entity.isMob() || entity.isPlayer()))
+            if (this.drawLevels && (entity.isMob() || entity.isConstruct() || entity.isPlayer()))
                 this.drawText(`Level ${entity.level}`, x, y, true, colour, 'rbga(0, 0, 0, 1)');
 
             if (entity.isItem() && entity.count > 1)
