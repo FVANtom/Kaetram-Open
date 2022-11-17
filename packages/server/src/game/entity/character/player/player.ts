@@ -220,6 +220,7 @@ export default class Player extends Character {
         this.loadAchievements();
         this.loadStatistics();
         this.loadAbilities();
+        this.world.terraWorld.loadSotPlayer(this.instance);
         this.intro();
 
         // equipment -> inventory/bank -> quests -> achievements -> skills -> statistics -> abilities -> intro
