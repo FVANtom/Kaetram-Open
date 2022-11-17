@@ -60,6 +60,7 @@ import {
     getSpawnPoint,
     getTutorialSpawnPoint
 } from '@kaetram/common/extensions/sot/network/modules';
+import Bubble from '@kaetram/server/src/network/packets/bubble';
 
 type KillCallback = (character: Character) => void;
 type NPCTalkCallback = (npc: NPC) => void;
@@ -753,8 +754,23 @@ export default class Player extends Character {
         // Handle doors when the player stops on one.
         if (this.map.isDoor(x, y) && !target) {
             let door = this.map.getDoor(x, y);
-
-            this.doorCallback?.(door);
+            this.send(
+                new Bubble({
+                    instance: this.instance,
+                    text: 'I feel a bit dizzy.. Like I am being pulled through a keyhole..'
+                })
+            );
+            this.setStun(true);
+            setTimeout(() => {
+                this.doorCallback?.(door);
+                this.setStun(false);
+                this.send(
+                    new Bubble({
+                        instance: this.instance,
+                        text: 'Ugh.. I hate being teleported..'
+                    })
+                );
+            }, 500);
         }
 
         // Movement has come to an end.
