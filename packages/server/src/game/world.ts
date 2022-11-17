@@ -28,8 +28,6 @@ import type MongoDB from '../database/mongodb/mongodb';
 import type Connection from '../network/connection';
 import type SocketHandler from '../network/sockethandler';
 import type Player from './entity/character/player/player';
-import Minigames from './minigames/minigames';
-import Globals from './globals/globals';
 import TerraWorld from '../../extensions/sot/src/game/terraworld';
 
 export interface PacketData {

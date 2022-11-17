@@ -46,6 +46,7 @@ import type {
     UpdateCallback,
     EffectCallback
 } from '@kaetram/common/types/messages/outgoing';
+import Game from '@kaetram/client/src/game';
 
 export default class Messages {
     private messages: (() => ((...data: never[]) => void) | undefined)[] = [];
@@ -102,7 +103,7 @@ export default class Messages {
      * Please respect the order of the Packets Enum and arrange functions
      * accordingly.
      */
-    public constructor(private app: App) {
+    public constructor(private app: App, private game: Game) {
         this.messages[Packets.Handshake] = () => this.handshakeCallback;
         this.messages[Packets.Welcome] = () => this.welcomeCallback;
         this.messages[Packets.Spawn] = () => this.spawnCallback;

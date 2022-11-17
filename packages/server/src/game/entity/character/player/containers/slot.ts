@@ -120,7 +120,7 @@ export default class Slot<SD extends SlotData = SlotData> {
      * @returns SlotData interface object.
      */
 
-    public serialize(): SlotData {
+    public serialize(): SD {
         let { index, key, count, enchantments, edible, equippable, soulBindable } = this;
 
         return <SD>{

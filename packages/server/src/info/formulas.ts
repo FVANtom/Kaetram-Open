@@ -86,7 +86,7 @@ export default {
         if (character.isPlayer()) damage += 5;
 
         // For SOT we want players to do less damage than constructs
-        if (attacker.isPlayer()) damage /= 2;
+        if (character.isPlayer()) damage /= 2;
 
         return damage;
     },
