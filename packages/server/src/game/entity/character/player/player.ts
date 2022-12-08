@@ -823,21 +823,23 @@ export default class Player extends Character {
 
         this.cameraArea = camera;
 
-        if (camera)
-            switch (camera.type) {
-                case 'lockX':
-                    this.send(new Camera(Opcodes.Camera.LockX));
-                    break;
-
-                case 'lockY':
-                    this.send(new Camera(Opcodes.Camera.LockY));
-                    break;
-
-                case 'player':
-                    this.send(new Camera(Opcodes.Camera.Player));
-                    break;
-            }
-        else this.send(new Camera(Opcodes.Camera.FreeFlow));
+        // TODO Tom: This was wrong during a rebase, fix it
+        // if (camera)
+        //     switch (camera.type) {
+        //         case 'lockX':
+        //             this.send(new Camera(Opcodes.Camera.LockX));
+        //             break;
+        //
+        //         case 'lockY':
+        //             this.send(new Camera(Opcodes.Camera.LockY));
+        //             break;
+        //
+        //         case 'player':
+        //             this.send(new Camera(Opcodes.Camera.Player));
+        //             break;
+        //     }
+        // else
+        this.send(new Camera(Opcodes.Camera.FreeFlow));
     }
 
     /**

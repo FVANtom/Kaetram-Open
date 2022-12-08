@@ -4,6 +4,7 @@ import type Player from '../../entity/character/player/player';
 import type Chest from '../../entity/objects/chest';
 
 import type { OverlayType } from '@kaetram/common/types/map';
+import _ from 'lodash-es';
 
 type AreaCallback = (player: Player) => void;
 export default class Area {
