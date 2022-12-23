@@ -20,4 +20,8 @@ export default class TerraWorld {
             `Stub handleDisconnection called for player [${player.instance}/${player.name}]`
         );
     }
+
+    loadSotPlayer(instance: string) {
+        console.debug(`Stub loadSotPlayer called for player [${instance}}]`);
+    }
 }
