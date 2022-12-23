@@ -77,7 +77,7 @@ export default class Handler {
         if (attacker) attacker.combat.stop();
 
         // Add exo to the attacker if it's a player.
-        if (attacker?.isPlayer()) attacker.killCallback?.(this.mob);
+        if (attacker?.isPlayer() || attacker?.isConstruct()) attacker.killCallback?.(this.mob);
 
         // Spawn item drops.
         let drops = this.mob.getDrops();
