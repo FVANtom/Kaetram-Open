@@ -457,12 +457,9 @@ export default class Regions {
         let data: RegionData = {},
             region = this.getRegion(player.x, player.y);
 
-        console.log('getRegionData', player.name, player.regionsLoaded);
-        console.log('getRegionData region', player.name, region);
         this.forEachSurroundingRegion(region, (surroundingRegion: number) => {
             let region = this.regions[surroundingRegion];
 
-            console.log('getRegionData forEachSurroundingRegion', player.name, surroundingRegion);
             // Initialize empty array for the region tile data.
             data[surroundingRegion] = [];
 
@@ -494,8 +491,6 @@ export default class Regions {
             if (data[surroundingRegion].length === 0) delete data[surroundingRegion];
         });
 
-        console.log('getRegionData after', player.name, player.regionsLoaded);
-        console.log('getRegionData data', player.name, data);
         return data;
     }
 
