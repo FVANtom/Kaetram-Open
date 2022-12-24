@@ -14,6 +14,10 @@ jobs:
 
             - name: Start MongoDB
               uses: supercharge/mongodb-github-action@1.7.0
+              with:
+                  mongodb-username: localroot
+                  mongodb-password: localpass
+                  mongodb-db: kaetram_e2e
 
             - name: Setup Node
               uses: actions/setup-node@v3
