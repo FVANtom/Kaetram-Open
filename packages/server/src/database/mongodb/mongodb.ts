@@ -49,6 +49,7 @@ export default class MongoDB {
      */
 
     private createConnection(): void {
+        console.log('createConnection connectionUrl', this.connectionUrl);
         let client = new MongoClient(this.connectionUrl, {
             connectTimeoutMS: 5000,
             serverSelectionTimeoutMS: 5000,
@@ -57,6 +58,7 @@ export default class MongoDB {
         });
 
         client.connect((error: Error | undefined, _client: MongoClient | undefined) => {
+            console.log('createConnection client.connect', error);
             if (error) {
                 // Initializes an empty loader controller.
                 this.loader = new Loader();
