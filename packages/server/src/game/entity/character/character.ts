@@ -20,6 +20,7 @@ import { PacketType } from '@kaetram/common/network/modules';
 import { EntityData } from '@kaetram/common/types/entity';
 import { Movement, Points, Combat as CombatPacket, Effect } from '../../../network/packets';
 
+type KillCallback = (character: Character) => void;
 type StunCallback = (stun: boolean) => void;
 type PoisonCallback = (type: number) => void;
 type HitCallback = (damage: number, attacker?: Character) => void;
@@ -67,6 +68,7 @@ export default abstract class Character extends Entity {
     private healingInterval?: NodeJS.Timeout | undefined;
     private poisonInterval?: NodeJS.Timeout | undefined;
 
+    public killCallback?: KillCallback;
     private stunCallback?: StunCallback;
     private poisonCallback?: PoisonCallback;
 
