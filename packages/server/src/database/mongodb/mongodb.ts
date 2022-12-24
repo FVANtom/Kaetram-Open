@@ -38,7 +38,7 @@ export default class MongoDB {
             authInsert = username && password ? `${username}:${password}@` : '',
             portInsert = port > 0 ? `:${port}` : '';
         this.connectionUrl = `${srvInsert}://${authInsert}${host}${portInsert}/${databaseName}`;
-
+        console.log('MongoDB constructor', this.connectionUrl, srvInsert, username, password, host);
         // Attempt to connect to MongoDB.
         this.createConnection();
     }
