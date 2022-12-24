@@ -790,4 +790,13 @@ export default abstract class Character extends Entity {
     public onDeathImpl(callback: DeathCallback): void {
         this.deathICallback = callback;
     }
+
+    /**
+     * Callback for when the current character kills another character.
+     * @param callback Contains the character object that was killed.
+     */
+
+    public onKill(callback: KillCallback): void {
+        this.killCallback = callback;
+    }
 }

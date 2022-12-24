@@ -62,7 +62,6 @@ import {
 } from '@kaetram/common/extensions/sot/network/modules';
 import Bubble from '@kaetram/server/src/network/packets/bubble';
 
-type KillCallback = (character: Character) => void;
 type NPCTalkCallback = (npc: NPC) => void;
 type DoorCallback = (door: ProcessedDoor) => void;
 type RegionCallback = (region: number) => void;
@@ -160,7 +159,6 @@ export default class Player extends Character {
     private cameraArea: Area | undefined;
     private overlayArea: Area | undefined;
 
-    public killCallback?: KillCallback;
     public npcTalkCallback?: NPCTalkCallback;
     public doorCallback?: DoorCallback;
     public regionCallback?: RegionCallback;
@@ -1548,15 +1546,6 @@ export default class Player extends Character {
         if (this.dualistsMark) return this.equipment.getWeapon().attackRate - 200;
 
         return this.equipment.getWeapon().attackRate;
-    }
-
-    /**
-     * Callback for when the current character kills another character.
-     * @param callback Contains the character object that was killed.
-     */
-
-    public onKill(callback: KillCallback): void {
-        this.killCallback = callback;
     }
 
     /**
